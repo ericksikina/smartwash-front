@@ -1,0 +1,12 @@
+<nav>
+  <div class="links">
+    @for (pagina of paginas; track $index) {
+    <button
+      (click)="paginaSelecionada = pagina.id"
+      (click)="trocarPagina(pagina)"
+      class="{{ paginaSelecionada == pagina.id ? 'selecionado' : '' }}"
+    >
+      {{ pagina.descricao }}</button
+    >}
+  </div>
+</nav>

@@ -1,0 +1,11 @@
+header {
+  width: auto;
+  margin: 1%;
+  border-bottom: 1px solid #1e293b;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.p-table-style {
+  background-color: #1e293b;
+}

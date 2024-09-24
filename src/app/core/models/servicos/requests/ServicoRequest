@@ -1,0 +1,4 @@
+export interface ServicoRequest {
+  descricao: string;
+  preco: string;
+}

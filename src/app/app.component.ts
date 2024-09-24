@@ -1,12 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { HeaderComponent } from './presentation/components/header/header.component';
+import { ServicosComponent } from './presentation/pages/servicos/servicos.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, ButtonModule, HeaderComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'smartwash';
-  ngOnInit() {}
+  title = 'front';
+
+  trocarPagina(event: any) {
+    console.log(event);
+  }
 }

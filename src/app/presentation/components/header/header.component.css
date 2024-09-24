@@ -1,0 +1,29 @@
+nav {
+  width: auto;
+  height: 10vh;
+  border-radius: 5px;
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  margin: 1%;
+  display: flex;
+  gap: 10px;
+  .links {
+    width: auto;
+    height: auto;
+    display: flex;
+    gap: 30px;
+    margin: 1%;
+    button {
+      width: 80px;
+      background-color: transparent;
+      border: 0;
+      transition: 200ms;
+    }
+    button:hover {
+      background-color: #1e293b;
+    }
+    button.selecionado {
+      background-color: #020617;
+    }
+  }
+}
