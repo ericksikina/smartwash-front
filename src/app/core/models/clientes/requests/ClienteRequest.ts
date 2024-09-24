@@ -1,5 +1,5 @@
+import { EnderecoRequest } from '../../enderecos/requests/EnderecoRequest';
 import { Resposta } from '../../enums/Resposta';
-import { Status } from '../../enums/Status';
 
 export interface ClienteResponse {
   nome: string;
@@ -7,13 +7,5 @@ export interface ClienteResponse {
   celular: string;
   email: string;
   desejaSerNotificado: Resposta;
-  endereco: {
-    rua: string;
-    numero: string;
-    bairro: string;
-    cep: string;
-    cidade: string;
-    estado: string;
-    complemento: string;
-  };
+  endereco: EnderecoRequest;
 }
