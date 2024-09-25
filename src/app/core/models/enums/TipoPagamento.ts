@@ -1,6 +1,1 @@
-export enum TipoPagamento {
-  PIX = 'P',
-  CREDITO = 'C',
-  DEBITO = 'D',
-  EM_ESPECIE = 'E',
-}
+export type TipoPagamento = 'PIX' | 'CREDITO' | 'DEBITO' | 'EM_ESPECIE';
