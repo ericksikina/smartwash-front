@@ -1,4 +1,1 @@
-export enum Status {
-  ATIVO = 'A',
-  INATIVO = 'I',
-}
+export type Status = 'ATIVO' | 'INATIVO';

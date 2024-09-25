@@ -6,6 +6,25 @@ header {
   padding-bottom: 1.5rem;
 }
 
-.p-table-style {
+table {
+  width: 100%;
+  padding: 10px;
+  border-collapse: collapse;
+  border: 1px solid #334155;
+}
+
+th {
   background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+th,
+td {
+  border: 0;
+  border-bottom: 1px solid #334155;
+  padding: 7px;
+}
+
+tr:nth-child(even) {
+  background-color: #0f172a;
 }

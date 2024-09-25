@@ -1,25 +1,57 @@
 <header>
-  <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold tracking-tight" style="color: #dbdbdb">
-      Gerenciar Serviços
-    </h1>
+  <div>
+    <h1 style="color: #dbdbdb">Gerenciar Serviços</h1>
   </div>
 </header>
-<main style="width: auto; margin: 1%; border-radius: 10px; overflow: hidden">
-  <table style="width: 100%; padding: 10px">
+<main style="width: auto; margin: 1%">
+  <table>
     <thead>
-      <tr style="font-weight: 700; padding: 10px">
-        <td>Serviço</td>
-        <td>Preço</td>
+      <tr
+        style="
+          font-weight: 700;
+          padding: 10px;
+          font-size: 14px;
+          text-align: left;
+        "
+      >
+        <th colspan="1" style="width: 6%; text-align: center">
+          Status
+          <p-inputSwitch [(ngModel)]="ativo" (click)="buscarListaDeServico()" />
+        </th>
+        <th colspan="3">Serviço</th>
+        <th colspan="2">Preço</th>
+        <th style="text-align: end; padding-right: 30px">
+          <p-button label="Cadastrar" />
+        </th>
+        <th colspan="1" style="width: 5%; text-align: end; padding-right: 50px">
+          Ações
+        </th>
       </tr>
     </thead>
     <tbody>
       @for(servico of servicos; track $index) {
-      <tr style="padding: 10px">
-        <td>{{ servico.descricao }}</td>
-        <td>R$ {{ servico.preco }}</td>
+      <tr>
+        <td colspan="1"></td>
+        <td colspan="2">{{ servico.descricao }}</td>
+        <td colspan="3">R$ {{ servico.preco }}</td>
+        <td></td>
+        <td colspan="1" style="text-align: end">
+          <p-splitButton
+            label="Editar"
+            [model]="items"
+            (onDropdownClick)="acaoClique(servico)"
+          />
+        </td>
       </tr>
       }
     </tbody>
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="8">
+          Total de Serviços {{ ativo ? "Ativos" : "Inativos" }}:
+          {{ servicos.length }}
+        </td>
+      </tr>
+    </tfoot>
   </table>
 </main>

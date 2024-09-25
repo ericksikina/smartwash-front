@@ -17,7 +17,9 @@ nav {
       width: 80px;
       background-color: transparent;
       border: 0;
+      border-radius: 10px;
       transition: 200ms;
+      font-weight: 700;
     }
     button:hover {
       background-color: #1e293b;
