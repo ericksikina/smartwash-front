@@ -1,4 +1,1 @@
-export enum Resposta {
-  SIM = 'S',
-  NAO = 'N',
-}
+export type Resposta = 'SIM' | 'NAO';
