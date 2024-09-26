@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   paginaSelecionada: number = 0;
   paginas: Array<pagina> = [
     { id: 1, descricao: 'Serviços', link: 'servicos' },
-    { id: 2, descricao: 'Pedidos', link: '' },
+    { id: 2, descricao: 'Produtos', link: 'produtos' },
     { id: 3, descricao: 'Funcionários', link: '' },
     { id: 4, descricao: 'Extrato', link: '' },
     { id: 5, descricao: 'Estoque', link: '' },

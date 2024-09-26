@@ -1,4 +1,4 @@
-export interface AtualizarProdutoRequest {
-  descricao: string;
-  estoqueMinimo: number;
+export class AtualizarProdutoRequest {
+  descricao!: string;
+  estoqueMinimo!: number;
 }

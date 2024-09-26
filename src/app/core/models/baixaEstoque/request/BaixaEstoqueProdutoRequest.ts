@@ -1,4 +1,4 @@
-export interface BaixaEstoqueProdutoRequest {
-  produto: string;
-  quantidade: number;
+export class BaixaEstoqueProdutoRequest {
+  produto!: string;
+  quantidade: number = 0;
 }

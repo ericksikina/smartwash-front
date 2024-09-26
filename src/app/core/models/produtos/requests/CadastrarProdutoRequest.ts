@@ -1,5 +1,5 @@
-export interface CadastrarProdutoRequest {
-  descricao: string;
-  quantidadeEstoque: number;
-  estoqueMinimo: number;
+export class CadastrarProdutoRequest {
+  descricao!: string;
+  quantidadeEstoque!: number;
+  estoqueMinimo!: number;
 }
