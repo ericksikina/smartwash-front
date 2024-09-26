@@ -1,0 +1,257 @@
+<header>
+  <p-toast key="myKey" />
+  <div style="display: flex; justify-content: center; align-items: center">
+    <h1 style="color: #dbdbdb; width: 30%; text-align: start">
+      Gerenciar Produtos
+    </h1>
+    <div style="width: 66%; text-align: end">
+      <p-splitButton
+        label="Relatorio"
+        [model]="relatorios"
+        (onClick)="gerarRelatorio()"
+      />
+    </div>
+  </div>
+</header>
+
+<main style="width: auto; margin: 1%; overflow-x: hidden">
+  @if(!filtroAtivo) {
+  <table>
+    <thead>
+      <tr
+        style="
+          font-weight: 700;
+          padding: 10px;
+          font-size: 14px;
+          text-align: left;
+        "
+      >
+        <th colspan="1" style="width: 6%; text-align: center">
+          Status
+          <p-inputSwitch [(ngModel)]="ativo" (click)="buscarProdutos()" />
+        </th>
+        <th colspan="3">Descrição</th>
+        <th colspan="1">Quantidade</th>
+        <th colspan="1">Estoque Minimo</th>
+        <th colspan="1">
+          <p-splitButton
+            label="{{ !filtroAtivo ? 'Filtro' : 'Resetar' }}"
+            [model]="filtros"
+            (onClick)="buscarProdutos()"
+            severity="secondary"
+          />
+        </th>
+        <th style="text-align: end; padding-right: 30px">
+          <p-button label="Cadastrar" />
+        </th>
+        <th colspan="1" style="width: 5%; text-align: end; padding-right: 50px">
+          Ações
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(produto of produtos; track $index) {
+      <tr>
+        <td colspan="1"></td>
+        <td colspan="3">{{ produto.descricao }}</td>
+        <td colspan="1">{{ produto.quantidade }}</td>
+        <td colspan="1">{{ produto.estoqueMinimo }}</td>
+        <td colspan="2"></td>
+        <td colspan="1" style="text-align: end">
+          <p-splitButton
+            label="Editar"
+            [model]="items"
+            (onDropdownClick)="acaoClique(produto)"
+          />
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="9">
+          Total de Produtos {{ ativo ? "Ativos" : "Inativos" }}:
+          {{ produtos.length }}
+        </td>
+      </tr>
+    </tfoot>
+    @if(produtos.length < 1) {
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="9" style="text-align: center; font-size: large">
+          Tabela Vazia
+        </td>
+      </tr>
+    </tfoot>
+    }
+  </table>
+  } @else {
+  <table>
+    <thead>
+      <tr>
+        <th colspan="4" style="text-align: center">
+          <p-splitButton
+            label="{{ !filtroAtivo ? 'Filtro' : 'Resetar' }}"
+            [model]="filtros"
+            (onClick)="buscarProdutos()"
+            severity="secondary"
+          />
+        </th>
+        <th colspan="3" style="text-align: center">
+          <p-button type="button" label="Salvar" (click)="showDialog()" />
+        </th>
+      </tr>
+    </thead>
+    @for(baixoEstoque of estoquesBaixos; track $index) {
+    <thead>
+      <tr
+        style="
+          font-weight: 700;
+          padding: 10px;
+          font-size: 14px;
+          text-align: left;
+        "
+      >
+        <th colspan="1" style="width: 6%; text-align: center"></th>
+        <th colspan="2">Data - Hora</th>
+        <th colspan="3">Funcionario</th>
+        <th colspan="1"></th>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="2">{{ baixoEstoque.dataHora }}</td>
+        <td colspan="3">{{ baixoEstoque.funcionario }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th colspan="7">Produtos</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="3">Descrição</th>
+        <th colspan="2">Quantidade</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(produto of baixoEstoque.listaDeProdutos; track $index) {
+      <tr>
+        <td></td>
+        <td colspan="3">{{ produto.produto }}</td>
+        <td colspan="2">{{ produto.quantidade }}</td>
+        <td></td>
+      </tr>
+      }
+      <tr>
+        <td colspan="7" rowspan="2"></td>
+      </tr>
+    </tbody>
+    }@if(estoquesBaixos.length < 1) {
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="7" style="text-align: center; font-size: large">
+          Tabela Vazia
+        </td>
+      </tr>
+    </tfoot>
+    }
+  </table>
+  }
+</main>
+
+<p-dialog
+  header="Cadastrar Baixa"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogForm"
+  [style]="{ width: '50rem', height: '30rem', overflowY: 'auto' }"
+>
+  <div style="display: flex; height: 80%; gap: 5%">
+    <div style="display: flex; flex-direction: column; width: 40%">
+      <div style="display: flex; align-items: center; margin-bottom: 1rem">
+        <label for="desc" style="width: 30%">Descrição</label>
+        <input
+          [(ngModel)]="baixaEstoqueProdutoRequest.produto"
+          pInputText
+          list="listaDeProdutos"
+          id="desc"
+          style="width: 70%"
+          autocomplete="off"
+          (input)="selecionarProduto()"
+        />
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 2rem">
+        <label for="preco" style="width: 30%">Preço</label>
+        <input
+          [(ngModel)]="baixaEstoqueProdutoRequest.quantidade"
+          pInputText
+          id="preco"
+          style="width: 70%"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+    <div style="width: 60%; height: 100%; overflow-y: auto">
+      <table style="width: 100%">
+        <thead>
+          <tr>
+            <th style="text-align: start">ID Produto</th>
+            <th style="text-align: start">Quantidade</th>
+          </tr>
+        </thead>
+        <tbody style="overflow-y: scroll">
+          @for(listProduto of baixaEstoqueRequest.listaDeProdutos; track $index)
+          {
+          <tr style="height: 30px">
+            <td>
+              @for(produto of produtos; track $index) { @if(listProduto.produto
+              == produto.id) {
+              {{ produto.descricao }}
+              } }
+            </td>
+            <td>{{ listProduto.quantidade }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      height: 20%;
+      align-items: center;
+    "
+  >
+    <button
+      type="button"
+      label="Cancelar"
+      severity="secondary"
+      (click)="visibilidadeDialogForm = false"
+      style="width: 33%"
+      pButton
+    ></button>
+    <button
+      type="button"
+      label="Salvar"
+      (click)="adicionarProduto()"
+      style="width: 33%"
+      pButton
+    ></button>
+    <button
+      type="button"
+      label="Cadastrar"
+      (click)="cadastrarBaixa()"
+      style="width: 33%"
+      pButton
+    ></button>
+  </div>
+</p-dialog>
+
+<datalist id="listaDeProdutos">
+  @for(produto of produtos; track $index) {
+  <option [value]="produto.descricao"></option>
+  }
+</datalist>

@@ -1,9 +1,18 @@
 <header>
-  <div>
-    <h1 style="color: #dbdbdb">Gerenciar Serviços</h1>
+  <p-toast key="myKey" />
+  <div style="display: flex; justify-content: center; align-items: center">
+    <h1 style="color: #dbdbdb; width: 30%; text-align: start">
+      Gerenciar Serviços
+    </h1>
+    <div style="width: 66%; text-align: end">
+      <p-button
+        label="Relatorio"
+        (click)="gerarRelatorioDeServico()"
+      ></p-button>
+    </div>
   </div>
 </header>
-<main style="width: auto; margin: 1%">
+<main style="width: auto; margin: 1%; overflow-x: hidden">
   <table>
     <thead>
       <tr
@@ -21,7 +30,7 @@
         <th colspan="3">Serviço</th>
         <th colspan="2">Preço</th>
         <th style="text-align: end; padding-right: 30px">
-          <p-button label="Cadastrar" />
+          <p-button label="Cadastrar" (click)="showDialog()" />
         </th>
         <th colspan="1" style="width: 5%; text-align: end; padding-right: 50px">
           Ações
@@ -39,6 +48,7 @@
           <p-splitButton
             label="Editar"
             [model]="items"
+            (onClick)="showDialog(servico)"
             (onDropdownClick)="acaoClique(servico)"
           />
         </td>
@@ -53,5 +63,59 @@
         </td>
       </tr>
     </tfoot>
+    @if(servicos.length < 1) {
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="8" style="text-align: center; font-size: large">
+          Tabela Vazia
+        </td>
+      </tr>
+    </tfoot>
+    }
   </table>
 </main>
+
+<p-dialog
+  header="Cadastrar Servico"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogForm"
+  [style]="{ width: '25rem' }"
+>
+  <div style="display: flex; align-items: center; margin-bottom: 1rem">
+    <label for="desc" style="width: 30%">Descrição</label>
+    <input
+      [(ngModel)]="servicoRequest.descricao"
+      pInputText
+      id="desc"
+      style="width: 70%"
+      autocomplete="off"
+    />
+  </div>
+  <div style="display: flex; align-items: center; margin-bottom: 2rem">
+    <label for="preco" style="width: 30%">Preço</label>
+    <input
+      [(ngModel)]="servicoRequest.preco"
+      pInputText
+      id="preco"
+      style="width: 70%"
+      autocomplete="off"
+    />
+  </div>
+  <div style="display: flex; justify-content: center; gap: 2rem">
+    <button
+      type="button"
+      label="Cancelar"
+      severity="secondary"
+      (click)="visibilidadeDialogForm = false"
+      style="width: 50%"
+      pButton
+    ></button>
+    <button
+      type="button"
+      label="Salvar"
+      (click)="cadastrarOuAtualizarServico()"
+      style="width: 50%"
+      pButton
+    ></button>
+  </div>
+</p-dialog>

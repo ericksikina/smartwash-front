@@ -1,5 +1,5 @@
-export interface CompraProdutoRequest {
-  produto: string;
-  quantidade: number;
-  precoUnitario: string;
+export class CompraProdutoRequest {
+  produto!: string;
+  quantidade!: number;
+  precoUnitario!: string;
 }
