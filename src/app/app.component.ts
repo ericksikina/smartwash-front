@@ -13,11 +13,15 @@ import { HeaderComponent } from './presentation/components/header/header.compone
 export class AppComponent implements OnInit {
   title = 'front';
 
+  tokenExiste: boolean = false;
+
   ngOnInit(): void {
-    localStorage.setItem(
-      'token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImVyaWNrZHVhcnRlc2lraW5hQGdtYWlsLmNvbSIsImV4cCI6MTc0Mzc4MjU2OH0.hPnJiEF9PtWw0i-qeaYZtFlyyrtfSFn0FAa5oCQpmkU'
-    );
+    // localStorage.setItem(
+    //   'token',
+    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImVyaWNrZHVhcnRlc2lraW5hQGdtYWlsLmNvbSIsImV4cCI6MTc0Mzc4MjU2OH0.hPnJiEF9PtWw0i-qeaYZtFlyyrtfSFn0FAa5oCQpmkU'
+    // );
+    localStorage.setItem('token', '');
+    this.tokenExiste = localStorage.getItem('token')!.length > 0;
   }
 
   trocarPagina(event: any) {
