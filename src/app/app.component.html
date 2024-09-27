@@ -1,5 +1,6 @@
 @if(tokenExiste) {
 <app-header (pagina)="trocarPagina($event)" />
-} @else {
 <router-outlet (activate)="trocarPagina($event)" />
+} @else {
+<app-login></app-login>
 }

@@ -17,6 +17,7 @@ import { CadastrarProdutoRequest } from '../../../../core/models/produtos/reques
 import { BaixaEstoqueResponse } from '../../../../core/models/baixaEstoque/response/BaixaEstoqueResponse';
 import { BaixaEstoqueRequest } from '../../../../core/models/baixaEstoque/request/BaixaEstoqueRequest';
 import { BaixaEstoqueProdutoRequest } from '../../../../core/models/baixaEstoque/request/BaixaEstoqueProdutoRequest';
+import { BaixaEstoqueDetalheResponse } from '../../../../core/models/baixaEstoque/response/BaixaEstoqueDetalheResponse';
 
 @Component({
   selector: 'app-produtos',
@@ -43,6 +44,7 @@ export class ProdutosComponent implements OnInit {
   atualizarProduto: AtualizarProdutoRequest = new AtualizarProdutoRequest();
 
   estoquesBaixos: Array<BaixaEstoqueResponse> = [];
+  listaDeProdutos: BaixaEstoqueDetalheResponse[] = [];
 
   baixaEstoqueRequest: BaixaEstoqueRequest = new BaixaEstoqueRequest();
   baixaEstoqueProdutoRequest: BaixaEstoqueProdutoRequest =
@@ -57,6 +59,7 @@ export class ProdutosComponent implements OnInit {
   ativo: boolean = true;
 
   visibilidadeDialogForm: boolean = false;
+  visibilidadeDialogProdutos: boolean = false;
 
   constructor(
     private messageService: MessageService,
@@ -179,7 +182,16 @@ export class ProdutosComponent implements OnInit {
       this.baixaEstoqueProdutoRequest!
     );
     this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
-    console.log(this.baixaEstoqueRequest);
+  }
+
+  removerProduto(index: number): void {
+    let i = -1;
+    this.baixaEstoqueRequest.listaDeProdutos =
+      this.baixaEstoqueRequest.listaDeProdutos.filter((p) => {
+        i++;
+        return i != index;
+      });
+    this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
   }
 
   selecionarProduto(): void {
@@ -206,6 +218,11 @@ export class ProdutosComponent implements OnInit {
     this.baixaEstoqueRequest = new BaixaEstoqueRequest();
     this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
     this.visibilidadeDialogForm = true;
+  }
+
+  showDialogProdutos(baixaEstoqueResponse: BaixaEstoqueResponse) {
+    this.listaDeProdutos = baixaEstoqueResponse.listaDeProdutos;
+    this.visibilidadeDialogProdutos = true;
   }
 
   public acaoClique(any: any) {

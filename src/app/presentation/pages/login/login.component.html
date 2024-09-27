@@ -1,1 +1,39 @@
-<p>teste</p>
+<div class="login-container">
+  <div class="login-box">
+    <h2>Login</h2>
+
+    <form>
+      <!-- Campo de Email -->
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Digite seu email"
+          required
+        />
+      </div>
+
+      <!-- Campo de Senha -->
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Digite sua senha"
+          required
+        />
+      </div>
+
+      <!-- Botão de Login -->
+      <button type="submit" class="login-button">Entrar</button>
+    </form>
+
+    <!-- Link para registro -->
+    <div class="register-link">
+      <p>Não tem uma conta? <a href="/register">Cadastre-se aqui</a></p>
+    </div>
+  </div>
+</div>

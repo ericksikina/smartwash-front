@@ -1,0 +1,92 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Caixa de login */
+.login-box {
+  width: 350px;
+  padding: 40px;
+  background-color: #1e293b;
+  border: 2px solid #334155; /* Sem cor, apenas borda preta */
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Título */
+.login-box h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Grupos de input */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Rótulos */
+.input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+/* Campos de entrada de dados */
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #334155; /* Sem cor, apenas borda preta */
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  background-color: transparent; /* Sem cor de fundo */
+}
+
+/* Efeito ao focar nos campos */
+.input-group input:focus {
+  border-color: #334155;
+}
+
+/* Botão de login */
+.login-button {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #334155; /* Sem cor, apenas borda preta */
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: transparent; /* Sem cor de fundo */
+  text-transform: uppercase;
+  transition: all 200ms;
+}
+
+.login-button:hover {
+  background-color: #020617;
+}
+
+.login-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Link para registro */
+.register-link {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.register-link a {
+  text-decoration: underline;
+  font-weight: 600;
+  color: #ffffff; /* Apenas texto sem cor */
+}
+
+.register-link a:hover {
+  text-decoration: none;
+}
