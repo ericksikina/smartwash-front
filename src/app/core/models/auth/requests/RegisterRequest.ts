@@ -1,4 +1,4 @@
-export interface RegisterRequest {
-  login: string;
-  password: string;
+export class RegisterRequest {
+  login!: string;
+  password!: string;
 }
