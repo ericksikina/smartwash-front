@@ -15,10 +15,10 @@ export class HeaderComponent implements OnInit {
     { id: 1, descricao: 'Serviços', link: 'servicos' },
     { id: 2, descricao: 'Produtos', link: 'produtos' },
     { id: 3, descricao: 'Funcionários', link: '' },
-    { id: 4, descricao: 'Extrato', link: '' },
-    { id: 5, descricao: 'Estoque', link: '' },
-    { id: 6, descricao: 'Relatórios', link: '' },
-    { id: 7, descricao: 'Pagamentos', link: '' },
+    { id: 4, descricao: 'Cliente', link: 'clientes' },
+    { id: 5, descricao: 'Fornecedor', link: '' },
+    { id: 6, descricao: 'Pedido', link: '' },
+    { id: 7, descricao: 'Compra', link: '' },
   ];
 
   constructor(private router: Router) {}
