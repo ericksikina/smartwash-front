@@ -1,0 +1,305 @@
+<header>
+  <p-toast key="myKey" />
+  <div style="display: flex; justify-content: center; align-items: center">
+    <h1 style="color: #dbdbdb; width: 30%; text-align: start">
+      Gerenciar Funcionarios
+    </h1>
+    <div style="width: 66%; text-align: end">
+      <p-button
+        label="Relatorio"
+        (click)="gerarRelatorioDeFuncionario()"
+      ></p-button>
+    </div>
+  </div>
+</header>
+<main style="width: auto; margin: 1%; overflow-x: hidden">
+  <table>
+    <thead>
+      <tr
+        style="
+          font-weight: 700;
+          padding: 10px;
+          font-size: 14px;
+          text-align: left;
+        "
+      >
+        <th colspan="1" style="width: 6%; text-align: center">
+          Status
+          <p-inputSwitch
+            [(ngModel)]="ativo"
+            (click)="buscarListaDeFuncionarios()"
+          />
+        </th>
+        <th colspan="1">Data da Contratação</th>
+        <th colspan="2">Nome</th>
+        <th colspan="1">CPF</th>
+        <th colspan="1">Celular</th>
+        <th colspan="1">Salario</th>
+        <th></th>
+        <th style="text-align: end; padding-right: 30px">
+          <p-button label="Cadastrar" (click)="showDialogCadastro()" />
+        </th>
+        <th colspan="1" style="width: 5%; text-align: end; padding-right: 50px">
+          Ações
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(funcionario of funcionarios; track $index) {
+      <tr>
+        <td colspan="1"></td>
+        <td colspan="1">{{ funcionario.dataContratacao }}</td>
+        <td colspan="2">{{ funcionario.nome }}</td>
+        <td colspan="1">{{ funcionario.cpf }}</td>
+        <td colspan="1">{{ funcionario.celular }}</td>
+        <td colspan="1">R$ {{ funcionario.salario }}</td>
+        <td></td>
+        <td colspan="1" style="text-align: end">
+          <p-splitButton
+            label="Editar"
+            [model]="items"
+            (onDropdownClick)="acaoClique(funcionario)"
+          />
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="10">
+          Total de Funcionarios {{ ativo ? "Ativos" : "Inativos" }}:
+          {{ funcionarios.length }}
+        </td>
+      </tr>
+    </tfoot>
+    @if(funcionarios.length < 1) {
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="10" style="text-align: center; font-size: large">
+          Tabela Vazia
+        </td>
+      </tr>
+    </tfoot>
+    }
+  </table>
+</main>
+
+<p-dialog
+  header="Cadastrar Funcionario"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogForm"
+  [style]="{ width: '55rem' }"
+>
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    "
+  >
+    <div
+      style="
+        width: 33%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Nome</label>
+      <input
+        [(ngModel)]="cadastrarFuncionarioRequest.nome"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">CPF</label>
+      <input
+        [(ngModel)]="cadastrarFuncionarioRequest.cpf"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Salario</label>
+      <input
+        [(ngModel)]="cadastrarFuncionarioRequest.salario"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    "
+  >
+    <div
+      style="
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Email</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+    <div style="width: 10%; display: flex; flex-direction: column"></div>
+    <div
+      style="
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Senha</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+  </div>
+  <div style="display: flex; margin-bottom: 1rem">
+    <div
+      style="
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">CEP</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+    <div
+      style="
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Rua</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+    <div
+      style="
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Numero</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+  </div>
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    "
+  >
+    <div
+      style="
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Bairro</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+    <div
+      style="
+        width: 33%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Cidade</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+    <div
+      style="
+        width: 33%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Estado</label>
+      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+    </div>
+  </div>
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    "
+  >
+    <div
+      style="
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc">Complemento</label>
+      <input pInputText id="desc" style="width: 100%" autocomplete="off" />
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center; gap: 2rem">
+    <button
+      type="button"
+      label="Cancelar"
+      severity="secondary"
+      (click)="visibilidadeDialogForm = false"
+      style="width: 50%"
+      pButton
+    ></button>
+    <button type="button" label="Salvar" style="width: 50%" pButton></button>
+  </div>
+</p-dialog>

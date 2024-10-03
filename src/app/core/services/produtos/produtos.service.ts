@@ -8,6 +8,7 @@ import { AtualizarProdutoRequest } from '../../models/produtos/requests/Atualiza
 import { Injectable } from '@angular/core';
 import { BaixaEstoqueResponse } from '../../models/baixaEstoque/response/BaixaEstoqueResponse';
 import { BaixaEstoqueRequest } from '../../models/baixaEstoque/request/BaixaEstoqueRequest';
+import { DataRequest } from '../../models/utils/requests/DataRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -84,6 +85,15 @@ export class ProdutosService {
   > {
     return this.http.get<Array<BaixaEstoqueResponse>>(
       `${this.APIBaixoEstoque}/listar`
+    );
+  }
+
+  buscarListaDeBaixaEstoqueFiltradoPorData(
+    dataRequest: DataRequest
+  ): Observable<Array<BaixaEstoqueResponse>> {
+    return this.http.post<Array<BaixaEstoqueResponse>>(
+      `${this.APIBaixoEstoque}/filtrar-por-data`,
+      dataRequest
     );
   }
 }

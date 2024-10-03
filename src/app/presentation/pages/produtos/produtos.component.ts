@@ -1,3 +1,4 @@
+import { DataRequest } from './../../../core/models/utils/requests/DataRequest';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -18,6 +19,7 @@ import { BaixaEstoqueRequest } from '../../../core/models/baixaEstoque/request/B
 import { BaixaEstoqueProdutoRequest } from '../../../core/models/baixaEstoque/request/BaixaEstoqueProdutoRequest';
 import { ProdutosService } from '../../../core/services/produtos/produtos.service';
 import { DownloadRelatorioService } from '../../../core/services/DownloadRelatorioService.service';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-produtos',
@@ -32,6 +34,7 @@ import { DownloadRelatorioService } from '../../../core/services/DownloadRelator
     RippleModule,
     DialogModule,
     InputTextModule,
+    CalendarModule,
   ],
   providers: [MessageService],
   templateUrl: './produtos.component.html',
@@ -42,6 +45,8 @@ export class ProdutosComponent implements OnInit {
   produtoSelecionado?: ProdutoResponse;
   novoProduto: CadastrarProdutoRequest = new CadastrarProdutoRequest();
   atualizarProduto: AtualizarProdutoRequest = new AtualizarProdutoRequest();
+
+  dataRequest: DataRequest = new DataRequest();
 
   estoquesBaixos: Array<BaixaEstoqueResponse> = [];
   listaDeProdutos: BaixaEstoqueDetalheResponse[] = [];
@@ -66,15 +71,14 @@ export class ProdutosComponent implements OnInit {
     private produtosService: ProdutosService,
     private downloadRelatorioService: DownloadRelatorioService
   ) {
-    this.filtros = [
-      {
-        label: 'Estoque Baixo',
-        command: () => {
-          this.filtroAtivo = true;
-          this.buscarProdutosEstoqueBaixo();
-        },
-      },
-    ];
+    this.filtroAtivo
+      ? (this.filtros = [
+          {
+            label: 'Filtrar Por Data',
+            command: () => {},
+          },
+        ])
+      : (this.filtros = []);
     this.relatorios = [
       {
         label: 'Estoque Baixo',
@@ -100,6 +104,14 @@ export class ProdutosComponent implements OnInit {
   // Método para buscar a lista de produtos
   buscarProdutos(): void {
     this.filtroAtivo = false;
+    this.filtroAtivo
+      ? (this.filtros = [
+          {
+            label: 'Filtrar Por Data',
+            command: () => {},
+          },
+        ])
+      : (this.filtros = []);
     this.produtosService
       .buscarListaDeProdutos(this.ativo ? 'ATIVO' : 'INATIVO')
       .subscribe((resposta: Array<ProdutoResponse>) => {
@@ -108,8 +120,38 @@ export class ProdutosComponent implements OnInit {
   }
 
   buscarProdutosEstoqueBaixo(): void {
+    this.filtroAtivo = true;
+    this.filtroAtivo
+      ? (this.filtros = [
+          {
+            label: 'Filtrar Por Data',
+            command: () => {
+              this.buscarListaDeBaixaEstoqueFiltradoPorData();
+            },
+          },
+        ])
+      : (this.filtros = []);
     this.produtosService
       .buscarListaDeProdutosEmBaixoEstoque()
+      .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
+        this.estoquesBaixos = resposta;
+      });
+  }
+
+  buscarListaDeBaixaEstoqueFiltradoPorData(): void {
+    this.filtroAtivo = true;
+    this.filtroAtivo
+      ? (this.filtros = [
+          {
+            label: 'Remover Filtro de Data',
+            command: () => {
+              this.buscarProdutosEstoqueBaixo();
+            },
+          },
+        ])
+      : (this.filtros = []);
+    this.produtosService
+      .buscarListaDeBaixaEstoqueFiltradoPorData(this.dataRequest)
       .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
         this.estoquesBaixos = resposta;
       });

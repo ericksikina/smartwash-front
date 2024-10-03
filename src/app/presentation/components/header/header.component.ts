@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   paginas: Array<pagina> = [
     { id: 1, descricao: 'Serviços', link: 'servicos' },
     { id: 2, descricao: 'Produtos', link: 'produtos' },
-    { id: 3, descricao: 'Funcionários', link: '' },
+    { id: 3, descricao: 'Funcionários', link: 'funcionarios' },
     { id: 4, descricao: 'Cliente', link: 'clientes' },
     { id: 5, descricao: 'Fornecedor', link: '' },
     { id: 6, descricao: 'Pedido', link: '' },

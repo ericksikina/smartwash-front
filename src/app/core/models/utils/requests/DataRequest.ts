@@ -1,4 +1,4 @@
-export interface DataRequest {
-  dataInicial: Date;
-  dataFinal: Date;
+export class DataRequest {
+  dataInicial: Date = new Date();
+  dataFinal: Date = new Date();
 }
