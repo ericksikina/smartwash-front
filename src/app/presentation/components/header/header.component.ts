@@ -8,7 +8,9 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
-  @Output() pagina = new EventEmitter<pagina>();
+  @Output() logoutEmitter = new EventEmitter<boolean>();
+
+  email: String = localStorage.getItem('email')!;
 
   paginaSelecionada: number = 0;
   paginas: Array<pagina> = [
@@ -29,7 +31,11 @@ export class HeaderComponent implements OnInit {
 
   trocarPagina(pagina: pagina) {
     this.router.navigate([pagina.link]);
-    this.pagina.emit(pagina);
+  }
+
+  logout() {
+    localStorage.clear();
+    this.logoutEmitter.emit(false);
   }
 }
 
