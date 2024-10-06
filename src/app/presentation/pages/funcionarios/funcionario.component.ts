@@ -1,4 +1,4 @@
-import { FuncionarioService } from './../../../core/services/funcionario/funcionarios.service';
+import { FuncionarioService } from '../../../core/services/funcionarios/funcionarios.service';
 import { CadastrarFuncionarioRequest } from './../../../core/models/funcionarios/requests/CadastrarFuncionarioRequest';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
