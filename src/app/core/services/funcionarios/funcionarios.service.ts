@@ -1,14 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { API } from '../api';
 import { Status } from '../../models/enums/Status';
-import { ProdutoResponse } from '../../models/produtos/responses/ProdutoResponse';
 import { Observable } from 'rxjs';
-import { CadastrarProdutoRequest } from '../../models/produtos/requests/CadastrarProdutoRequest';
-import { AtualizarProdutoRequest } from '../../models/produtos/requests/AtualizarProdutoRequest';
 import { Injectable } from '@angular/core';
-import { BaixaEstoqueResponse } from '../../models/baixaEstoque/response/BaixaEstoqueResponse';
-import { BaixaEstoqueRequest } from '../../models/baixaEstoque/request/BaixaEstoqueRequest';
-import { DataRequest } from '../../models/utils/requests/DataRequest';
 import { FuncionarioResponse } from '../../models/funcionarios/responses/FuncionarioResponse';
 
 @Injectable({
