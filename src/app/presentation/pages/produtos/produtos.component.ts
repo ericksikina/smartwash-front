@@ -20,6 +20,7 @@ import { BaixaEstoqueProdutoRequest } from '../../../core/models/baixaEstoque/re
 import { ProdutosService } from '../../../core/services/produtos/produtos.service';
 import { DownloadRelatorioService } from '../../../core/services/DownloadRelatorioService.service';
 import { CalendarModule } from 'primeng/calendar';
+import { BaixaEstoqueService } from '../../../core/services/baixasEstoque/baixas-estoque.service';
 
 @Component({
   selector: 'app-produtos',
@@ -69,7 +70,8 @@ export class ProdutosComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private produtosService: ProdutosService,
-    private downloadRelatorioService: DownloadRelatorioService
+    private downloadRelatorioService: DownloadRelatorioService,
+    private baixaEstoqueService: BaixaEstoqueService
   ) {
     this.filtroAtivo
       ? (this.filtros = [
@@ -131,8 +133,8 @@ export class ProdutosComponent implements OnInit {
           },
         ])
       : (this.filtros = []);
-    this.produtosService
-      .buscarListaDeProdutosEmBaixoEstoque()
+    this.baixaEstoqueService
+      .buscarListaDeProdutosEstoqueBaixo()
       .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
         this.estoquesBaixos = resposta;
       });
@@ -150,7 +152,7 @@ export class ProdutosComponent implements OnInit {
           },
         ])
       : (this.filtros = []);
-    this.produtosService
+    this.baixaEstoqueService
       .buscarListaDeBaixaEstoqueFiltradoPorData(this.dataRequest)
       .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
         this.estoquesBaixos = resposta;
@@ -166,7 +168,7 @@ export class ProdutosComponent implements OnInit {
 
   cadastrarBaixa(): void {
     this.showToast('info', 'Carregando...', 'Aguarde alguns segundos');
-    this.produtosService
+    this.baixaEstoqueService
       .cadastrarBaixa(this.baixaEstoqueRequest)
       .subscribe(() => {
         this.baixaEstoqueRequest = new BaixaEstoqueRequest();
