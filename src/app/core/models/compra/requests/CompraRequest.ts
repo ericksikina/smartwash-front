@@ -1,7 +1,7 @@
 import { CompraProdutoRequest } from './CompraProdutoRequest';
 
-export interface CompraRequest {
-  fornecedor: string;
-  valorTotal: string;
-  listaDeProdutos: CompraProdutoRequest[];
+export class CompraRequest {
+  fornecedor!: string;
+  valorTotal!: string;
+  listaDeProdutos!: CompraProdutoRequest[];
 }

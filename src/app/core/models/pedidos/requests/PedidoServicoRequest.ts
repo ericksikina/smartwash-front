@@ -1,4 +1,4 @@
-export interface PedidoServicoRequest {
-  servico: string;
-  quantidade: number;
+export class PedidoServicoRequest {
+  servico!: string;
+  quantidade!: number;
 }

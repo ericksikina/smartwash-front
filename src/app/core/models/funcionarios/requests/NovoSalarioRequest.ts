@@ -1,3 +1,3 @@
-export interface NovoSalarioRequest {
-  salario: string;
+export class NovoSalarioRequest {
+  salario!: string;
 }

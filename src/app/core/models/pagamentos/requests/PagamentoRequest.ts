@@ -1,5 +1,5 @@
 import { TipoPagamento } from '../../enums/TipoPagamento';
 
-export interface PagamentoRequest {
-  tipo: TipoPagamento;
+export class PagamentoRequest {
+  tipo!: TipoPagamento;
 }

@@ -1,5 +1,5 @@
-export interface FornecedorRequest {
-  descricao: string;
-  telefone: string;
-  cnpj: string;
+export class FornecedorRequest {
+  descricao!: string;
+  telefone!: string;
+  cnpj!: string;
 }
