@@ -1,21 +1,17 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { API } from '../api';
 import { Status } from '../../models/enums/Status';
 import { ProdutoResponse } from '../../models/produtos/responses/ProdutoResponse';
-import { Observable } from 'rxjs';
 import { CadastrarProdutoRequest } from '../../models/produtos/requests/CadastrarProdutoRequest';
 import { AtualizarProdutoRequest } from '../../models/produtos/requests/AtualizarProdutoRequest';
-import { Injectable } from '@angular/core';
-import { BaixaEstoqueResponse } from '../../models/baixaEstoque/response/BaixaEstoqueResponse';
-import { BaixaEstoqueRequest } from '../../models/baixaEstoque/request/BaixaEstoqueRequest';
-import { DataRequest } from '../../models/utils/requests/DataRequest';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProdutosService {
   APIProduto: string = `${API}/produto`;
-  APIBaixoEstoque: string = `${API}/baixa-estoque`;
 
   constructor(private http: HttpClient) {}
 
@@ -23,12 +19,6 @@ export class ProdutosService {
   buscarListaDeProdutos(status: Status): Observable<Array<ProdutoResponse>> {
     return this.http.get<Array<ProdutoResponse>>(
       `${this.APIProduto}/listar/${status}`
-    );
-  }
-
-  buscarListaDeProdutosEstoqueBaixo(): Observable<Array<ProdutoResponse>> {
-    return this.http.get<Array<ProdutoResponse>>(
-      `${this.APIBaixoEstoque}/listar`
     );
   }
 
@@ -43,13 +33,6 @@ export class ProdutosService {
   // Cadastrar novo produto
   cadastrarProduto(produtoRequest: CadastrarProdutoRequest): Observable<void> {
     return this.http.post<void>(`${this.APIProduto}/cadastrar`, produtoRequest);
-  }
-
-  cadastrarBaixa(baixaEstoqueRequest: BaixaEstoqueRequest): Observable<void> {
-    return this.http.post<void>(
-      `${this.APIBaixoEstoque}/cadastrar`,
-      baixaEstoqueRequest
-    );
   }
 
   // Atualizar um produto existente por ID
@@ -77,23 +60,6 @@ export class ProdutosService {
       {
         responseType: 'blob' as 'json',
       }
-    );
-  }
-
-  buscarListaDeProdutosEmBaixoEstoque(): Observable<
-    Array<BaixaEstoqueResponse>
-  > {
-    return this.http.get<Array<BaixaEstoqueResponse>>(
-      `${this.APIBaixoEstoque}/listar`
-    );
-  }
-
-  buscarListaDeBaixaEstoqueFiltradoPorData(
-    dataRequest: DataRequest
-  ): Observable<Array<BaixaEstoqueResponse>> {
-    return this.http.post<Array<BaixaEstoqueResponse>>(
-      `${this.APIBaixoEstoque}/filtrar-por-data`,
-      dataRequest
     );
   }
 }
