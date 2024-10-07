@@ -143,6 +143,42 @@
         flex-direction: column;
       "
     >
+      <label for="desc" style="width: 30%">Celular</label>
+      <input
+        [(ngModel)]="cadastrarFuncionarioRequest.celular"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 30%">Data da contratação</label>
+      <input
+        [(ngModel)]="cadastrarFuncionarioRequest.dataContratacao"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
       <label for="desc" style="width: 30%">Salario</label>
       <input
         [(ngModel)]="cadastrarFuncionarioRequest.salario"
