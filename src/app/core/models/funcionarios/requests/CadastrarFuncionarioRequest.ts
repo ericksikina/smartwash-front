@@ -7,6 +7,6 @@ export class CadastrarFuncionarioRequest {
   celular!: string;
   salario!: string;
   dataContratacao!: Date;
-  endereco!: EnderecoRequest;
-  auth!: RegisterRequest;
+  endereco: EnderecoRequest = new EnderecoRequest();
+  auth: RegisterRequest = new RegisterRequest();
 }

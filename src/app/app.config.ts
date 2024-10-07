@@ -16,6 +16,5 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(withInterceptors([requestInterceptor])),
-    { provide: LOCALE_ID, useValue: 'pt-BR' },
   ],
 };

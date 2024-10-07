@@ -1,5 +1,5 @@
 import { ServicoRequest } from './../../../core/models/servicos/requests/ServicoRequest';
-import { DownloadRelatorioService } from './../../../core/services/DownloadRelatorioService.service';
+import { DownloadRelatorioService } from '../../../core/services/utils/DownloadRelatorioService.service';
 import { ServicoResponse } from './../../../core/models/servicos/responses/ServicoResponse';
 import { ServicosService } from './../../../core/services/servicos/servicos.service';
 import { Component, OnInit } from '@angular/core';

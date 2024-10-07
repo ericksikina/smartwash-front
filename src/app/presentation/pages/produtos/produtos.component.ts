@@ -18,7 +18,7 @@ import { BaixaEstoqueDetalheResponse } from '../../../core/models/baixaEstoque/r
 import { BaixaEstoqueRequest } from '../../../core/models/baixaEstoque/request/BaixaEstoqueRequest';
 import { BaixaEstoqueProdutoRequest } from '../../../core/models/baixaEstoque/request/BaixaEstoqueProdutoRequest';
 import { ProdutosService } from '../../../core/services/produtos/produtos.service';
-import { DownloadRelatorioService } from '../../../core/services/DownloadRelatorioService.service';
+import { DownloadRelatorioService } from '../../../core/services/utils/DownloadRelatorioService.service';
 import { CalendarModule } from 'primeng/calendar';
 import { BaixaEstoqueService } from '../../../core/services/baixasEstoque/baixas-estoque.service';
 
@@ -66,6 +66,8 @@ export class ProdutosComponent implements OnInit {
 
   visibilidadeDialogForm: boolean = false;
   visibilidadeDialogProdutos: boolean = false;
+  visibilidadeDialogFormCadastro: boolean = false;
+  visibilidadeDialogFormAtualizar: boolean = false;
 
   constructor(
     private messageService: MessageService,
@@ -161,8 +163,12 @@ export class ProdutosComponent implements OnInit {
 
   // Método para cadastrar um novo produto
   cadastrarProduto(): void {
+    this.showToast('info', 'Cadastrando...', 'Aguarde alguns segundos');
     this.produtosService.cadastrarProduto(this.novoProduto).subscribe(() => {
-      this.buscarProdutos(); // Atualizar lista de produtos após cadastro
+      this.clearToast();
+      this.showToast('success', 'Cadastrado com sucesso!');
+      this.buscarProdutos();
+      this.visibilidadeDialogFormCadastro = false;
     });
   }
 
@@ -179,13 +185,15 @@ export class ProdutosComponent implements OnInit {
       });
   }
 
-  // Método para atualizar um produto
-  atualizarDadosProduto(id: string): void {
-    this.produtoSelecionado = undefined;
+  atualizarDadosProduto(): void {
+    this.showToast('info', 'Carregando...', 'Aguarde alguns segundos');
     this.produtosService
-      .atualizarProduto(id, this.atualizarProduto)
+      .atualizarProduto(this.produtoSelecionado!.id, this.atualizarProduto)
       .subscribe(() => {
-        this.buscarProdutos(); // Atualizar lista de produtos após atualização
+        this.atualizarProduto = new AtualizarProdutoRequest();
+        this.showToast('success', 'Cadastro feito com sucesso');
+        this.buscarProdutos();
+        this.visibilidadeDialogFormAtualizar = false;
       });
   }
 
@@ -262,6 +270,19 @@ export class ProdutosComponent implements OnInit {
     this.baixaEstoqueRequest = new BaixaEstoqueRequest();
     this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
     this.visibilidadeDialogForm = true;
+  }
+
+  showDialogCadastro() {
+    this.novoProduto = new CadastrarProdutoRequest();
+    this.visibilidadeDialogFormCadastro = true;
+  }
+
+  showDialogAtualizar(produtoSelecionado: ProdutoResponse) {
+    this.atualizarProduto = new AtualizarProdutoRequest();
+    this.produtoSelecionado = produtoSelecionado;
+    this.atualizarProduto.descricao = produtoSelecionado.descricao;
+    this.atualizarProduto.estoqueMinimo = produtoSelecionado.estoqueMinimo;
+    this.visibilidadeDialogFormAtualizar = true;
   }
 
   showDialogProdutos(baixaEstoqueResponse: BaixaEstoqueResponse) {

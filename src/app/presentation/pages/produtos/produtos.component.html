@@ -44,7 +44,7 @@
           />
         </th>
         <th style="text-align: end; padding-right: 30px">
-          <p-button label="Cadastrar" />
+          <p-button label="Cadastrar" (click)="showDialogCadastro()" />
         </th>
         <th colspan="1" style="width: 5%; text-align: end; padding-right: 50px">
           Ações
@@ -63,6 +63,7 @@
           <p-splitButton
             label="Editar"
             [model]="items"
+            (onClick)="showDialogAtualizar(produto)"
             (onDropdownClick)="acaoClique(produto)"
           />
         </td>
@@ -176,7 +177,7 @@
   }
 </main>
 <p-dialog
-  header="Cadastrar Baixa"
+  header="Visualizar Baixas"
   [modal]="true"
   [(visible)]="visibilidadeDialogProdutos"
   [style]="{ width: '50rem', height: '30rem', overflowY: 'auto' }"
@@ -217,6 +218,173 @@
     </tfoot>
     }
   </table>
+</p-dialog>
+
+<p-dialog
+  header="Cadastrar Produto"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogFormCadastro"
+  [style]="{ width: '50rem' }"
+>
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
+    <div
+      style="
+        width: 100%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 85%">Descrição</label>
+      <input
+        [(ngModel)]="novoProduto.descricao"
+        pInputText
+        id="desc"
+        style="width: 85%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 50%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Quantidade Minima</label>
+      <input
+        [(ngModel)]="novoProduto.estoqueMinimo"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 50%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Quantidade Em Estoque</label>
+      <input
+        [(ngModel)]="novoProduto.quantidadeEstoque"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      height: 20%;
+      align-items: center;
+    "
+  >
+    <button
+      type="button"
+      label="Cancelar"
+      severity="secondary"
+      (click)="visibilidadeDialogFormCadastro = false"
+      style="width: 50%"
+      pButton
+    ></button>
+    <button
+      type="button"
+      label="Cadastrar"
+      (click)="cadastrarProduto()"
+      style="width: 50%"
+      pButton
+    ></button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  header="Atualizar Produto"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogFormAtualizar"
+  [style]="{ width: '50rem' }"
+>
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
+    <div
+      style="
+        width: 50%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Descrição</label>
+      <input
+        [(ngModel)]="atualizarProduto.descricao"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 50%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Quantidade Minima</label>
+      <input
+        [(ngModel)]="atualizarProduto.estoqueMinimo"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      height: 20%;
+      align-items: center;
+    "
+  >
+    <button
+      type="button"
+      label="Cancelar"
+      severity="secondary"
+      (click)="visibilidadeDialogFormAtualizar = false"
+      style="width: 50%"
+      pButton
+    ></button>
+    <button
+      type="button"
+      label="Cadastrar"
+      (click)="atualizarDadosProduto()"
+      style="width: 50%"
+      pButton
+    ></button>
+  </div>
 </p-dialog>
 
 <p-dialog

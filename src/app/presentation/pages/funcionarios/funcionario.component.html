@@ -12,7 +12,7 @@
     </div>
   </div>
 </header>
-<main style="width: auto; margin: 1%; overflow-x: hidden">
+<main style="width: auto; margin: 1%">
   <table>
     <thead>
       <tr
@@ -48,16 +48,19 @@
       @for(funcionario of funcionarios; track $index) {
       <tr>
         <td colspan="1"></td>
-        <td colspan="1">{{ funcionario.dataContratacao }}</td>
+        <td colspan="1">
+          {{ funcionario.dataContratacao | date : "dd/MM/yyyy" }}
+        </td>
         <td colspan="2">{{ funcionario.nome }}</td>
         <td colspan="1">{{ funcionario.cpf }}</td>
         <td colspan="1">{{ funcionario.celular }}</td>
         <td colspan="1">R$ {{ funcionario.salario }}</td>
         <td></td>
-        <td colspan="1" style="text-align: end">
+        <td colspan="2" style="text-align: end">
           <p-splitButton
             label="Editar"
             [model]="items"
+            (onClick)="showDialogAtualizar(funcionario)"
             (onDropdownClick)="acaoClique(funcionario)"
           />
         </td>
@@ -90,24 +93,18 @@
   [(visible)]="visibilidadeDialogForm"
   [style]="{ width: '55rem' }"
 >
-  <div
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1rem;
-    "
-  >
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Nome</label>
+      <label style="width: 70%">Nome</label>
       <input
         [(ngModel)]="cadastrarFuncionarioRequest.nome"
         pInputText
@@ -119,13 +116,14 @@
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">CPF</label>
+      <label style="width: 70%">CPF</label>
       <input
         [(ngModel)]="cadastrarFuncionarioRequest.cpf"
         pInputText
@@ -137,13 +135,14 @@
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Celular</label>
+      <label style="width: 70%">Celular</label>
       <input
         [(ngModel)]="cadastrarFuncionarioRequest.celular"
         pInputText
@@ -155,31 +154,71 @@
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
         justify-content: center;
         align-items: center;
-        display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Data da contratação</label>
+      <label style="width: 70%">Email</label>
       <input
-        [(ngModel)]="cadastrarFuncionarioRequest.dataContratacao"
         pInputText
         id="desc"
         style="width: 70%"
+        [(ngModel)]="cadastrarFuncionarioRequest.auth.login"
         autocomplete="off"
       />
     </div>
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Senha</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="cadastrarFuncionarioRequest.auth.password"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Data da contratação</label>
+      <p-calendar
+        inputId="dataInicio"
+        [(ngModel)]="cadastrarFuncionarioRequest.dataContratacao"
+        [readonlyInput]="true"
+        [touchUI]="true"
+        dateFormat="dd/mm/yy"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Salario</label>
+      <label style="width: 70%">Salario</label>
       <input
         [(ngModel)]="cadastrarFuncionarioRequest.salario"
         pInputText
@@ -188,143 +227,145 @@
         autocomplete="off"
       />
     </div>
-  </div>
-  <div
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1rem;
-    "
-  >
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Email</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
-    </div>
-    <div style="width: 10%; display: flex; flex-direction: column"></div>
-    <div
-      style="
-        width: 33%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      "
-    >
-      <label for="desc" style="width: 30%">Senha</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
-    </div>
-  </div>
-  <div style="display: flex; margin-bottom: 1rem">
-    <div
-      style="
-        width: 33%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      "
-    >
-      <label for="desc" style="width: 30%">CEP</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+      <label style="width: 70%">CEP</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="cadastrarFuncionarioRequest.endereco.cep"
+        autocomplete="off"
+        (change)="
+          buscarEnderecoComViaCEP(cadastrarFuncionarioRequest.endereco.cep)
+        "
+      />
     </div>
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Rua</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+      <label style="width: 70%">Rua</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="cadastrarFuncionarioRequest.endereco.rua"
+        autocomplete="off"
+      />
     </div>
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Numero</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
-    </div>
-  </div>
-  <div
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1rem;
-    "
-  >
-    <div
-      style="
-        width: 33%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      "
-    >
-      <label for="desc" style="width: 30%">Bairro</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+      <label style="width: 70%">Numero</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="cadastrarFuncionarioRequest.endereco.numero"
+        autocomplete="off"
+      />
     </div>
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
         justify-content: center;
         align-items: center;
-        display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Cidade</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+      <label style="width: 70%">Bairro</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="cadastrarFuncionarioRequest.endereco.bairro"
+        autocomplete="off"
+      />
     </div>
     <div
       style="
         width: 33%;
+        margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc" style="width: 30%">Estado</label>
-      <input pInputText id="desc" style="width: 70%" autocomplete="off" />
+      <label style="width: 70%">Cidade</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="cadastrarFuncionarioRequest.endereco.cidade"
+        autocomplete="off"
+      />
     </div>
-  </div>
-  <div
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1rem;
-    "
-  >
     <div
       style="
-        width: 100%;
+        width: 33%;
+        margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
       "
     >
-      <label for="desc">Complemento</label>
-      <input pInputText id="desc" style="width: 100%" autocomplete="off" />
+      <label style="width: 70%">Estado</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="cadastrarFuncionarioRequest.endereco.estado"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 66%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 86%">Complemento</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 86%"
+        [(ngModel)]="cadastrarFuncionarioRequest.endereco.complemento"
+        autocomplete="off"
+      />
     </div>
   </div>
   <div style="display: flex; justify-content: center; gap: 2rem">
@@ -336,6 +377,514 @@
       style="width: 50%"
       pButton
     ></button>
-    <button type="button" label="Salvar" style="width: 50%" pButton></button>
+    <button
+      type="button"
+      label="Salvar"
+      style="width: 50%"
+      (click)="cadastraFuncionario()"
+      pButton
+    ></button>
   </div>
 </p-dialog>
+
+<p-dialog
+  header="Alterar Funcionario"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogFormAtualizar"
+  [style]="{ width: '55rem' }"
+>
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Nome</label>
+      <input
+        [(ngModel)]="atualizarFuncionarioRequest.nome"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CPF</label>
+      <input
+        [(ngModel)]="atualizarFuncionarioRequest.cpf"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Celular</label>
+      <input
+        [(ngModel)]="atualizarFuncionarioRequest.celular"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Data da contratação</label>
+      <p-calendar
+        inputId="dataInicio"
+        [(ngModel)]="atualizarFuncionarioRequest.dataContratacao"
+        [readonlyInput]="true"
+        [touchUI]="true"
+        dateFormat="dd/mm/yy"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CEP</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="atualizarFuncionarioRequest.endereco.cep"
+        autocomplete="off"
+        (change)="
+          buscarEnderecoComViaCEP(atualizarFuncionarioRequest.endereco.cep)
+        "
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Rua</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="atualizarFuncionarioRequest.endereco.rua"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Numero</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="atualizarFuncionarioRequest.endereco.numero"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Bairro</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="atualizarFuncionarioRequest.endereco.bairro"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Cidade</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="atualizarFuncionarioRequest.endereco.cidade"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Estado</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [(ngModel)]="atualizarFuncionarioRequest.endereco.estado"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 66%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 86%">Complemento</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 86%"
+        [(ngModel)]="atualizarFuncionarioRequest.endereco.complemento"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center; gap: 2rem">
+    <button
+      type="button"
+      label="Cancelar"
+      severity="secondary"
+      (click)="visibilidadeDialogFormAtualizar = false"
+      style="width: 50%"
+      pButton
+    ></button>
+    <button
+      type="button"
+      label="Salvar"
+      style="width: 50%"
+      (click)="atualizarFuncionario()"
+      pButton
+    ></button>
+  </div>
+</p-dialog>
+
+@if(funcionarioSelecionado) {
+
+<p-dialog
+  header="Visualizar Informações do Funcionario"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogInformacoes"
+  [style]="{ width: '55rem' }"
+>
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Nome</label>
+      <input
+        [(ngModel)]="funcionarioSelecionado!.nome"
+        pInputText
+        id="desc"
+        [disabled]="true"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CPF</label>
+      <input
+        [(ngModel)]="funcionarioSelecionado!.cpf"
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Celular</label>
+      <input
+        [(ngModel)]="funcionarioSelecionado!.celular"
+        pInputText
+        id="desc"
+        [disabled]="true"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Data da contratação</label>
+      <p-calendar
+        inputId="dataInicio"
+        [(ngModel)]="funcionarioSelecionado!.dataContratacao"
+        [readonlyInput]="true"
+        [touchUI]="true"
+        [disabled]="true"
+        dateFormat="dd/mm/yy"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Salario</label>
+      <input
+        [(ngModel)]="funcionarioSelecionado!.salario"
+        pInputText
+        id="desc"
+        [disabled]="true"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CEP</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="funcionarioSelecionado!.enderecoResponse!.cep"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Rua</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="funcionarioSelecionado!.enderecoResponse!.rua"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Numero</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="funcionarioSelecionado!.enderecoResponse!.numero"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Bairro</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="funcionarioSelecionado!.enderecoResponse!.bairro"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Cidade</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="funcionarioSelecionado!.enderecoResponse!.cidade"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Estado</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="funcionarioSelecionado!.enderecoResponse!.estado"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Complemento</label>
+      <input
+        pInputText
+        id="desc"
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="funcionarioSelecionado!.enderecoResponse!.complemento"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center; gap: 2rem">
+    <button
+      type="button"
+      label="Voltar"
+      severity="secondary"
+      (click)="visibilidadeDialogInformacoes = false"
+      style="width: 100%"
+      pButton
+    ></button>
+  </div>
+</p-dialog>
+}

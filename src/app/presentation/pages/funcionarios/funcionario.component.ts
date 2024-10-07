@@ -1,6 +1,7 @@
+import { AtualizarFuncionarioRequest } from './../../../core/models/funcionarios/requests/AtualizarFuncionarioRequest';
 import { FuncionarioService } from '../../../core/services/funcionarios/funcionarios.service';
 import { CadastrarFuncionarioRequest } from './../../../core/models/funcionarios/requests/CadastrarFuncionarioRequest';
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -12,7 +13,10 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { FuncionarioResponse } from '../../../core/models/funcionarios/responses/FuncionarioResponse';
 import { MenuItem, MessageService } from 'primeng/api';
-import { DownloadRelatorioService } from '../../../core/services/DownloadRelatorioService.service';
+import { DownloadRelatorioService } from '../../../core/services/utils/DownloadRelatorioService.service';
+import { CalendarModule } from 'primeng/calendar';
+import { EnderecoService } from '../../../core/services/utils/endereco.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-funcionario',
@@ -27,6 +31,8 @@ import { DownloadRelatorioService } from '../../../core/services/DownloadRelator
     RippleModule,
     DialogModule,
     InputTextModule,
+    CalendarModule,
+    DatePipe,
   ],
   providers: [MessageService],
   templateUrl: './funcionario.component.html',
@@ -41,13 +47,19 @@ export class FuncionariosComponent implements OnInit {
   funcionarioSelecionado?: FuncionarioResponse;
 
   visibilidadeDialogForm: boolean = false;
+  visibilidadeDialogFormAtualizar: boolean = false;
+  visibilidadeDialogInformacoes: boolean = false;
 
   cadastrarFuncionarioRequest: CadastrarFuncionarioRequest =
     new CadastrarFuncionarioRequest();
 
+  atualizarFuncionarioRequest: AtualizarFuncionarioRequest =
+    new AtualizarFuncionarioRequest();
+
   constructor(
     private messageService: MessageService,
     private funcionarioService: FuncionarioService,
+    private enderecoService: EnderecoService,
     private downloadRelatorioService: DownloadRelatorioService
   ) {
     this.items = [
@@ -55,6 +67,12 @@ export class FuncionariosComponent implements OnInit {
         label: 'Alterar Status',
         command: () => {
           this.atualizarSituacaoServico(this.funcionarioSelecionado!.id);
+        },
+      },
+      {
+        label: 'Visualizar Dados',
+        command: () => {
+          this.showDialog();
         },
       },
     ];
@@ -81,6 +99,42 @@ export class FuncionariosComponent implements OnInit {
       .atualizarSituacaoFuncionario(id)
       .subscribe((success) => {
         this.buscarListaDeFuncionarios();
+      });
+  }
+
+  cadastraFuncionario() {
+    this.showToast('info', 'Cadastrando...', 'Aguarde alguns Segundos');
+    this.funcionarioService
+      .cadastraFuncionario(this.cadastrarFuncionarioRequest)
+      .subscribe((success) => {
+        this.clearToast();
+        this.showToast('success', 'Criado com sucesso!');
+        this.buscarListaDeFuncionarios();
+        this.visibilidadeDialogForm = false;
+      });
+  }
+
+  atualizarFuncionario() {
+    this.showToast('info', 'Atualizando...', 'Aguarde alguns Segundos');
+    this.funcionarioService
+      .atualizarFuncionario(
+        this.funcionarioSelecionado!.id,
+        this.atualizarFuncionarioRequest
+      )
+      .subscribe((success) => {
+        this.clearToast();
+        this.showToast('success', 'Atualizado!');
+        this.buscarListaDeFuncionarios();
+        this.visibilidadeDialogFormAtualizar = false;
+      });
+  }
+
+  buscarEnderecoComViaCEP(cep: string) {
+    this.enderecoService
+      .buscarDadosDeEnderecoPeloCep(cep)
+      .subscribe((success) => {
+        this.cadastrarFuncionarioRequest.endereco.converter(success);
+        console.log(this.cadastrarFuncionarioRequest.endereco);
       });
   }
 
@@ -111,9 +165,25 @@ export class FuncionariosComponent implements OnInit {
     this.messageService.clear();
   }
 
-  showDialogCadastro(funcionarioSelecionado?: FuncionarioResponse) {
-    this.funcionarioSelecionado = funcionarioSelecionado;
+  showDialog() {
+    this.funcionarioSelecionado!.dataContratacao = new Date(
+      this.funcionarioSelecionado!.dataContratacao
+    );
+    this.funcionarioSelecionado!.dataContratacao.setDate(
+      this.funcionarioSelecionado!.dataContratacao.getDate() + 1
+    );
+    this.visibilidadeDialogInformacoes = true;
+  }
+
+  showDialogCadastro() {
     this.cadastrarFuncionarioRequest = new CadastrarFuncionarioRequest();
     this.visibilidadeDialogForm = true;
+  }
+
+  showDialogAtualizar(funcionarioSelecionado: FuncionarioResponse) {
+    this.funcionarioSelecionado = funcionarioSelecionado;
+    this.atualizarFuncionarioRequest = new AtualizarFuncionarioRequest();
+    this.atualizarFuncionarioRequest.converter(funcionarioSelecionado!);
+    this.visibilidadeDialogFormAtualizar = true;
   }
 }

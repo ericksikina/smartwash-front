@@ -6,7 +6,7 @@ export interface FuncionarioResponse {
   cpf: string;
   celular: string;
   salario: string;
-  dataContratacao: string;
+  dataContratacao: Date;
   status: Status;
   enderecoResponse: {
     id: string;
