@@ -14,6 +14,7 @@ import { ClienteResponse } from '../../../core/models/clientes/responses/Cliente
 import { EnderecoService } from '../../../core/services/utils/endereco.service';
 import { DatePipe } from '@angular/common';
 import { ClienteRequest } from '../../../core/models/clientes/requests/ClienteRequest';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @Component({
   selector: 'app-cliente',
@@ -24,6 +25,7 @@ import { ClienteRequest } from '../../../core/models/clientes/requests/ClienteRe
     SplitButtonModule,
     InputSwitchModule,
     ButtonModule,
+    SelectButtonModule,
     ToastModule,
     RippleModule,
     DialogModule,

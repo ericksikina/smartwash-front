@@ -143,18 +143,19 @@
     </div>
     <div
       style="
-        width: 33%;
+        width: 66%;
         margin-bottom: 1rem;
-        display: flex;
         justify-content: center;
         align-items: center;
+        display: flex;
         flex-direction: column;
       "
     >
-      <label style="width: 70%">Email</label>
+      <label style="width: 86%">Email</label>
       <input
         pInputText
-        style="width: 70%"
+        id="desc"
+        style="width: 86%"
         [(ngModel)]="clienteRequest.email"
         autocomplete="off"
       />
@@ -165,12 +166,34 @@
         margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Deseja ser notificado</label>
+      <p-selectButton
+        [(ngModel)]="clienteRequest.desejaSerNotificado"
+        [options]="[
+          { label: 'SIM', value: 'SIM' },
+          { label: 'NAO', value: 'NAO' }
+        ]"
+        style="width: 70%"
+      ></p-selectButton>
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-direction: column;
       "
     >
       <label style="width: 70%">CEP</label>
       <input
         pInputText
+        id="desc"
         style="width: 70%"
         [(ngModel)]="clienteRequest.endereco.cep"
         autocomplete="off"
@@ -181,6 +204,7 @@
       style="
         width: 33%;
         margin-bottom: 1rem;
+        display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -189,8 +213,8 @@
       <label style="width: 70%">Rua</label>
       <input
         pInputText
+        id="desc"
         style="width: 70%"
-        [disabled]="true"
         [(ngModel)]="clienteRequest.endereco.rua"
         autocomplete="off"
       />
@@ -199,6 +223,7 @@
       style="
         width: 33%;
         margin-bottom: 1rem;
+        display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -207,6 +232,7 @@
       <label style="width: 70%">Numero</label>
       <input
         pInputText
+        id="desc"
         style="width: 70%"
         [(ngModel)]="clienteRequest.endereco.numero"
         autocomplete="off"
@@ -216,6 +242,7 @@
       style="
         width: 33%;
         margin-bottom: 1rem;
+        display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -224,8 +251,8 @@
       <label style="width: 70%">Bairro</label>
       <input
         pInputText
+        id="desc"
         style="width: 70%"
-        [disabled]="true"
         [(ngModel)]="clienteRequest.endereco.bairro"
         autocomplete="off"
       />
@@ -236,14 +263,15 @@
         margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
+        display: flex;
         flex-direction: column;
       "
     >
       <label style="width: 70%">Cidade</label>
       <input
         pInputText
+        id="desc"
         style="width: 70%"
-        [disabled]="true"
         [(ngModel)]="clienteRequest.endereco.cidade"
         autocomplete="off"
       />
@@ -254,31 +282,34 @@
         margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
+        display: flex;
         flex-direction: column;
       "
     >
       <label style="width: 70%">Estado</label>
       <input
         pInputText
+        id="desc"
         style="width: 70%"
-        [disabled]="true"
         [(ngModel)]="clienteRequest.endereco.estado"
         autocomplete="off"
       />
     </div>
     <div
       style="
-        width: 66%;
+        width: 99%;
         margin-bottom: 1rem;
         justify-content: center;
         align-items: center;
+        display: flex;
         flex-direction: column;
       "
     >
-      <label style="width: 86%">Complemento</label>
+      <label style="width: 90%">Complemento</label>
       <input
         pInputText
-        style="width: 86%"
+        id="desc"
+        style="width: 90%"
         [(ngModel)]="clienteRequest.endereco.complemento"
         autocomplete="off"
       />
@@ -302,3 +333,256 @@
     ></button>
   </div>
 </p-dialog>
+
+@if(clienteSelecionado) {
+
+<p-dialog
+  header="Visualizar Informações do Cliente"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogInformacoes"
+  [style]="{ width: '55rem' }"
+>
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Nome</label>
+      <input
+        [(ngModel)]="clienteSelecionado!.nome"
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CPF</label>
+      <input
+        [(ngModel)]="clienteSelecionado!.cpf"
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Celular</label>
+      <input
+        [(ngModel)]="clienteSelecionado!.celular"
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 66%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 86%">Email</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 86%"
+        [(ngModel)]="clienteSelecionado!.email"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Deseja ser notificado</label>
+      <p-selectButton
+        [(ngModel)]="clienteSelecionado!.desejaSerNotificado"
+        [options]="[
+          { label: 'SIM', value: 'SIM' },
+          { label: 'NAO', value: 'NAO' }
+        ]"
+        [disabled]="true"
+        style="width: 70%"
+      ></p-selectButton>
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CEP</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        [(ngModel)]="clienteSelecionado!.enderecoResponse!.cep"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Rua</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        [(ngModel)]="clienteSelecionado!.enderecoResponse!.rua"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Numero</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        [(ngModel)]="clienteSelecionado!.enderecoResponse!.numero"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Bairro</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        [(ngModel)]="clienteSelecionado!.enderecoResponse!.bairro"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Cidade</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        [(ngModel)]="clienteSelecionado!.enderecoResponse!.cidade"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Estado</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 70%"
+        [(ngModel)]="clienteSelecionado!.enderecoResponse!.estado"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 99%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 90%">Complemento</label>
+      <input
+        pInputText
+        [disabled]="true"
+        style="width: 90%"
+        [(ngModel)]="clienteSelecionado!.enderecoResponse!.complemento"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center; gap: 2rem">
+    <button
+      type="button"
+      label="Voltar"
+      severity="secondary"
+      (click)="visibilidadeDialogInformacoes = false"
+      style="width: 100%"
+      pButton
+    ></button>
+  </div>
+</p-dialog>
+}
