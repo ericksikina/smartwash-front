@@ -1,1 +1,304 @@
-<p>clientes works!</p>
+<header>
+  <p-toast key="myKey" />
+  <div style="display: flex; justify-content: center; align-items: center">
+    <h1 style="color: #dbdbdb; width: 30%; text-align: start">
+      Gerenciar Clientes
+    </h1>
+    <div style="width: 66%; text-align: end"></div>
+  </div>
+</header>
+
+<main style="width: auto; margin: 1%">
+  <table>
+    <thead>
+      <tr
+        style="
+          font-weight: 700;
+          padding: 10px;
+          font-size: 14px;
+          text-align: left;
+        "
+      >
+        <th colspan="1" style="width: 6%; text-align: center">
+          Status
+          <p-inputSwitch
+            [(ngModel)]="ativo"
+            (click)="buscarListaDeClientes()"
+          />
+        </th>
+        <th colspan="2">Nome</th>
+        <th colspan="1">CPF</th>
+        <th colspan="1">Celular</th>
+        <th colspan="1">Email</th>
+        <th colspan="1">Deseja ser notificado</th>
+        <th style="text-align: end; padding-right: 30px">
+          <p-button label="Cadastrar" (click)="showDialog()" />
+        </th>
+        <th colspan="1" style="width: 5%; text-align: end; padding-right: 50px">
+          Ações
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(cliente of clientes; track $index) {
+      <tr>
+        <td colspan="1"></td>
+        <td colspan="2">{{ cliente.nome }}</td>
+        <td colspan="1">{{ cliente.cpf }}</td>
+        <td colspan="1">{{ cliente.celular }}</td>
+        <td colspan="1">{{ cliente.email }}</td>
+        <td colspan="1">{{ cliente.desejaSerNotificado }}</td>
+        <td></td>
+        <td colspan="1" style="text-align: end">
+          <p-splitButton
+            label="Editar"
+            [model]="items"
+            (onClick)="showDialog(cliente)"
+            (onDropdownClick)="acaoClique(cliente)"
+          />
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="10">
+          Total de Clientes {{ ativo ? "Ativos" : "Inativos" }}:
+          {{ clientes.length }}
+        </td>
+      </tr>
+    </tfoot>
+    @if(clientes.length < 1) {
+    <tfoot style="background-color: #1e293b">
+      <tr>
+        <td colspan="10" style="text-align: center; font-size: large">
+          Tabela Vazia
+        </td>
+      </tr>
+    </tfoot>
+    }
+  </table>
+</main>
+
+<p-dialog
+  header="Cadastrar Cliente"
+  [modal]="true"
+  [(visible)]="visibilidadeDialogForm"
+  [style]="{ width: '55rem' }"
+>
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Nome</label>
+      <input
+        [(ngModel)]="clienteRequest.nome"
+        pInputText
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CPF</label>
+      <input
+        [(ngModel)]="clienteRequest.cpf"
+        pInputText
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Celular</label>
+      <input
+        [(ngModel)]="clienteRequest.celular"
+        pInputText
+        style="width: 70%"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Email</label>
+      <input
+        pInputText
+        style="width: 70%"
+        [(ngModel)]="clienteRequest.email"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">CEP</label>
+      <input
+        pInputText
+        style="width: 70%"
+        [(ngModel)]="clienteRequest.endereco.cep"
+        autocomplete="off"
+        (change)="buscarEnderecoComViaCEP(clienteRequest.endereco.cep)"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Rua</label>
+      <input
+        pInputText
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="clienteRequest.endereco.rua"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Numero</label>
+      <input
+        pInputText
+        style="width: 70%"
+        [(ngModel)]="clienteRequest.endereco.numero"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Bairro</label>
+      <input
+        pInputText
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="clienteRequest.endereco.bairro"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Cidade</label>
+      <input
+        pInputText
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="clienteRequest.endereco.cidade"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 70%">Estado</label>
+      <input
+        pInputText
+        style="width: 70%"
+        [disabled]="true"
+        [(ngModel)]="clienteRequest.endereco.estado"
+        autocomplete="off"
+      />
+    </div>
+    <div
+      style="
+        width: 66%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      <label style="width: 86%">Complemento</label>
+      <input
+        pInputText
+        style="width: 86%"
+        [(ngModel)]="clienteRequest.endereco.complemento"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center; gap: 2rem">
+    <button
+      type="button"
+      label="Cancelar"
+      severity="secondary"
+      (click)="visibilidadeDialogForm = false"
+      style="width: 50%"
+      pButton
+    ></button>
+    <button
+      type="button"
+      label="Salvar"
+      style="width: 50%"
+      (click)="cadastrarOuAtualizarCliente()"
+      pButton
+    ></button>
+  </div>
+</p-dialog>
