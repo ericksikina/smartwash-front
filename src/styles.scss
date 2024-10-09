@@ -41,3 +41,26 @@ td {
 tr:nth-child(even) {
   background-color: #0f172a;
 }
+
+.compra > button {
+  width: 65px;
+  height: 35px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 10px 0 0 10px;
+  transition: 200ms;
+  font-weight: 700;
+  font-size: 12px;
+  color: #ffffff;
+}
+.compra > button.p-splitbutton-menubutton {
+  width: 40px;
+  border-radius: 0 10px 10px 0;
+}
+
+.compra > button:hover {
+  background-color: #1e293b;
+}
+.compra.selecionado button {
+  background-color: #020617;
+}

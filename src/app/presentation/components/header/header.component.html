@@ -11,7 +11,13 @@
     </button>
     } }
 
-    <p-splitButton label="Compra" [model]="items"></p-splitButton>
+    <p-splitButton
+      styleClass="compra {{ paginaSelecionada == 7 ? 'selecionado' : '' }}"
+      label="Compra"
+      (onClick)="paginaSelecionada = this.paginas[6].id"
+      (onClick)="trocarPagina(this.paginas[6])"
+      [model]="items"
+    ></p-splitButton>
   </div>
 
   <div

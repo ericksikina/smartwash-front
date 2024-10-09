@@ -49,8 +49,8 @@ export class PedidosService {
 
   calcularValorTotal(
     listaDeServicos: Array<PedidoServicoRequest>
-  ): Observable<String> {
-    return this.http.post<String>(
+  ): Observable<string> {
+    return this.http.post<string>(
       `${this.APIPedido}/calcular-total`,
       listaDeServicos
     );

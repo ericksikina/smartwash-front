@@ -1,5 +1,8 @@
-import { TipoPagamento } from '../../enums/TipoPagamento';
+import { TipoPagamento } from './../../enums/TipoPagamento';
 
 export class PagamentoRequest {
-  tipo!: TipoPagamento;
+  tipo?: TipoPagamento;
+  constructor(pagamentoRequest?: any) {
+    this.tipo = pagamentoRequest?.tipo.tipo;
+  }
 }

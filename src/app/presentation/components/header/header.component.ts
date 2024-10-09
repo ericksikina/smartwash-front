@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
     { id: 3, descricao: 'Funcionários', link: 'funcionarios' },
     { id: 4, descricao: 'Cliente', link: 'clientes' },
     { id: 5, descricao: 'Fornecedor', link: 'fornecedores' },
-    { id: 6, descricao: 'Pedido', link: '' },
+    { id: 6, descricao: 'Pedido', link: 'pedidos' },
     { id: 7, descricao: 'Compra', link: '' },
     { id: 8, descricao: 'Baixa no Estoque', link: 'baixas-estoque' },
   ];
@@ -32,12 +32,10 @@ export class HeaderComponent implements OnInit {
     this.items = [
       {
         label: 'Baixa no Estoque',
-        command: () =>
-          this.trocarPagina({
-            id: 8,
-            descricao: 'Baixa no Estoque',
-            link: 'baixas-estoque',
-          }),
+        command: () => {
+          this.trocarPagina(this.paginas[7]);
+          this.paginaSelecionada = this.paginas[7].id;
+        },
       },
     ];
   }

@@ -26,6 +26,7 @@ nav {
     }
     button.selecionado {
       background-color: #020617;
+      color: #ffffff;
     }
   }
 }
