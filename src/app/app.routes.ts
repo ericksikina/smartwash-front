@@ -6,6 +6,7 @@ import { FuncionariosComponent } from './presentation/pages/funcionarios/funcion
 import { FornecedoresComponent } from './presentation/pages/fornecedores/fornecedores.component';
 import { BaixasEstoqueComponent } from './presentation/pages/baixas-estoque/baixas-estoque.component';
 import { PedidosComponent } from './presentation/pages/pedidos/pedidos.component';
+import { ComprasComponent } from './presentation/pages/compras/compras.component';
 
 export const routes: Routes = [
   { path: 'servicos', component: ServicosComponent },
@@ -15,4 +16,5 @@ export const routes: Routes = [
   { path: 'fornecedores', component: FornecedoresComponent },
   { path: 'baixas-estoque', component: BaixasEstoqueComponent },
   { path: 'pedidos', component: PedidosComponent },
+  { path: 'compras', component: ComprasComponent },
 ];

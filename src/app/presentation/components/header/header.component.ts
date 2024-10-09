@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
     { id: 4, descricao: 'Cliente', link: 'clientes' },
     { id: 5, descricao: 'Fornecedor', link: 'fornecedores' },
     { id: 6, descricao: 'Pedido', link: 'pedidos' },
-    { id: 7, descricao: 'Compra', link: '' },
+    { id: 7, descricao: 'Compra', link: 'compras' },
     { id: 8, descricao: 'Baixa no Estoque', link: 'baixas-estoque' },
   ];
 
