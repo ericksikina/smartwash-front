@@ -22,7 +22,6 @@ import { ClienteResponse } from '../../../core/models/clientes/responses/Cliente
 import { ClientesService } from '../../../core/services/clientes/clientes.service';
 import { PagamentoRequest } from '../../../core/models/pagamentos/requests/PagamentoRequest';
 import { DropdownModule } from 'primeng/dropdown';
-import { TipoPagamento } from '../../../core/models/enums/TipoPagamento';
 
 @Component({
   selector: 'app-pedidos',
