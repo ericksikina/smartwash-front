@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
     { id: 5, descricao: 'Fornecedor', link: 'fornecedores' },
     { id: 6, descricao: 'Pedido', link: '' },
     { id: 7, descricao: 'Compra', link: '' },
-    { id: 8, descricao: 'Baixa no Estoque', link: '' },
+    { id: 8, descricao: 'Baixa no Estoque', link: 'baixas-estoque' },
   ];
 
   constructor(private router: Router) {
@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
           this.trocarPagina({
             id: 8,
             descricao: 'Baixa no Estoque',
-            link: 'baixa-estoque',
+            link: 'baixas-estoque',
           }),
       },
     ];

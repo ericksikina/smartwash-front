@@ -4,6 +4,7 @@ import { ProdutosComponent } from './presentation/pages/produtos/produtos.compon
 import { ClientesComponent } from './presentation/pages/clientes/clientes.component';
 import { FuncionariosComponent } from './presentation/pages/funcionarios/funcionario.component';
 import { FornecedoresComponent } from './presentation/pages/fornecedores/fornecedores.component';
+import { BaixasEstoqueComponent } from './presentation/pages/baixas-estoque/baixas-estoque.component';
 
 export const routes: Routes = [
   { path: 'servicos', component: ServicosComponent },
@@ -11,4 +12,5 @@ export const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
   { path: 'funcionarios', component: FuncionariosComponent },
   { path: 'fornecedores', component: FornecedoresComponent },
+  { path: 'baixas-estoque', component: BaixasEstoqueComponent },
 ];
