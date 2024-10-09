@@ -1,4 +1,3 @@
-import { DataRequest } from './../../../core/models/utils/requests/DataRequest';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -13,14 +12,9 @@ import { ToastModule } from 'primeng/toast';
 import { ProdutoResponse } from '../../../core/models/produtos/responses/ProdutoResponse';
 import { CadastrarProdutoRequest } from '../../../core/models/produtos/requests/CadastrarProdutoRequest';
 import { AtualizarProdutoRequest } from '../../../core/models/produtos/requests/AtualizarProdutoRequest';
-import { BaixaEstoqueResponse } from '../../../core/models/baixaEstoque/response/BaixaEstoqueResponse';
-import { BaixaEstoqueDetalheResponse } from '../../../core/models/baixaEstoque/response/BaixaEstoqueDetalheResponse';
-import { BaixaEstoqueRequest } from '../../../core/models/baixaEstoque/request/BaixaEstoqueRequest';
-import { BaixaEstoqueProdutoRequest } from '../../../core/models/baixaEstoque/request/BaixaEstoqueProdutoRequest';
 import { ProdutosService } from '../../../core/services/produtos/produtos.service';
 import { DownloadRelatorioService } from '../../../core/services/utils/DownloadRelatorioService.service';
 import { CalendarModule } from 'primeng/calendar';
-import { BaixaEstoqueService } from '../../../core/services/baixasEstoque/baixas-estoque.service';
 
 @Component({
   selector: 'app-produtos',
@@ -47,55 +41,32 @@ export class ProdutosComponent implements OnInit {
   novoProduto: CadastrarProdutoRequest = new CadastrarProdutoRequest();
   atualizarProduto: AtualizarProdutoRequest = new AtualizarProdutoRequest();
 
-  dataRequest: DataRequest = new DataRequest();
-
-  estoquesBaixos: Array<BaixaEstoqueResponse> = [];
-  listaDeProdutos: BaixaEstoqueDetalheResponse[] = [];
-
-  baixaEstoqueRequest: BaixaEstoqueRequest = new BaixaEstoqueRequest();
-  baixaEstoqueProdutoRequest: BaixaEstoqueProdutoRequest =
-    new BaixaEstoqueProdutoRequest();
-  baixaEstoqueSelecionado?: BaixaEstoqueProdutoRequest;
-
-  items: MenuItem[];
   relatorios: MenuItem[];
-  filtros: MenuItem[];
-  filtroAtivo: boolean = false;
+  items: MenuItem[];
 
   ativo: boolean = true;
 
-  visibilidadeDialogForm: boolean = false;
-  visibilidadeDialogProdutos: boolean = false;
   visibilidadeDialogFormCadastro: boolean = false;
   visibilidadeDialogFormAtualizar: boolean = false;
 
   constructor(
     private messageService: MessageService,
     private produtosService: ProdutosService,
-    private downloadRelatorioService: DownloadRelatorioService,
-    private baixaEstoqueService: BaixaEstoqueService
+    private downloadRelatorioService: DownloadRelatorioService
   ) {
-    this.filtroAtivo
-      ? (this.filtros = [
-          {
-            label: 'Filtrar Por Data',
-            command: () => {},
-          },
-        ])
-      : (this.filtros = []);
-    this.relatorios = [
-      {
-        label: 'Estoque Baixo',
-        command: () => {
-          this.gerarRelatorioComEstoqueBaixo();
-        },
-      },
-    ];
     this.items = [
       {
         label: 'Alterar Status',
         command: () => {
           this.atualizarSituacaoProduto(this.produtoSelecionado!.id);
+        },
+      },
+    ];
+    this.relatorios = [
+      {
+        label: 'Estoque Baixo',
+        command: () => {
+          this.gerarRelatorioComEstoqueBaixo();
         },
       },
     ];
@@ -105,17 +76,7 @@ export class ProdutosComponent implements OnInit {
     this.buscarProdutos();
   }
 
-  // Método para buscar a lista de produtos
   buscarProdutos(): void {
-    this.filtroAtivo = false;
-    this.filtroAtivo
-      ? (this.filtros = [
-          {
-            label: 'Filtrar Por Data',
-            command: () => {},
-          },
-        ])
-      : (this.filtros = []);
     this.produtosService
       .buscarListaDeProdutos(this.ativo ? 'ATIVO' : 'INATIVO')
       .subscribe((resposta: Array<ProdutoResponse>) => {
@@ -123,45 +84,6 @@ export class ProdutosComponent implements OnInit {
       });
   }
 
-  buscarProdutosEstoqueBaixo(): void {
-    this.filtroAtivo = true;
-    this.filtroAtivo
-      ? (this.filtros = [
-          {
-            label: 'Filtrar Por Data',
-            command: () => {
-              this.buscarListaDeBaixaEstoqueFiltradoPorData();
-            },
-          },
-        ])
-      : (this.filtros = []);
-    this.baixaEstoqueService
-      .buscarListaDeProdutosEstoqueBaixo()
-      .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
-        this.estoquesBaixos = resposta;
-      });
-  }
-
-  buscarListaDeBaixaEstoqueFiltradoPorData(): void {
-    this.filtroAtivo = true;
-    this.filtroAtivo
-      ? (this.filtros = [
-          {
-            label: 'Remover Filtro de Data',
-            command: () => {
-              this.buscarProdutosEstoqueBaixo();
-            },
-          },
-        ])
-      : (this.filtros = []);
-    this.baixaEstoqueService
-      .buscarListaDeBaixaEstoqueFiltradoPorData(this.dataRequest)
-      .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
-        this.estoquesBaixos = resposta;
-      });
-  }
-
-  // Método para cadastrar um novo produto
   cadastrarProduto(): void {
     this.showToast('info', 'Cadastrando...', 'Aguarde alguns segundos');
     this.produtosService.cadastrarProduto(this.novoProduto).subscribe(() => {
@@ -170,19 +92,6 @@ export class ProdutosComponent implements OnInit {
       this.buscarProdutos();
       this.visibilidadeDialogFormCadastro = false;
     });
-  }
-
-  cadastrarBaixa(): void {
-    this.showToast('info', 'Carregando...', 'Aguarde alguns segundos');
-    this.baixaEstoqueService
-      .cadastrarBaixa(this.baixaEstoqueRequest)
-      .subscribe(() => {
-        this.baixaEstoqueRequest = new BaixaEstoqueRequest();
-        this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
-        this.showToast('success', 'Cadastro feito com sucesso');
-        this.buscarProdutosEstoqueBaixo();
-        this.visibilidadeDialogForm = false;
-      });
   }
 
   atualizarDadosProduto(): void {
@@ -197,7 +106,6 @@ export class ProdutosComponent implements OnInit {
       });
   }
 
-  // Método para atualizar a situação do produto
   atualizarSituacaoProduto(id: string): void {
     this.produtoSelecionado = undefined;
     this.produtosService.atualizarSituacaoProduto(id).subscribe(() => {
@@ -205,7 +113,6 @@ export class ProdutosComponent implements OnInit {
     });
   }
 
-  // Método para gerar relatório de produtos
   gerarRelatorio(): void {
     this.showToast('info', 'Carregando...', 'Aguarde alguns segundos');
     this.produtosService.gerarRelatorioDeProduto().subscribe((resposta) => {
@@ -214,7 +121,6 @@ export class ProdutosComponent implements OnInit {
     });
   }
 
-  // Gerar relatório de produtos com estoque baixo
   gerarRelatorioComEstoqueBaixo(): void {
     this.showToast('info', 'Carregando...', 'Aguarde alguns segundos');
     this.produtosService
@@ -226,30 +132,6 @@ export class ProdutosComponent implements OnInit {
           'ProdutosComEstoqueBaixo.pdf'
         );
       });
-  }
-
-  adicionarProduto(): void {
-    this.baixaEstoqueProdutoRequest!.produto = this.produtoSelecionado!.id;
-    this.baixaEstoqueRequest.listaDeProdutos.push(
-      this.baixaEstoqueProdutoRequest!
-    );
-    this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
-  }
-
-  removerProduto(index: number): void {
-    let i = -1;
-    this.baixaEstoqueRequest.listaDeProdutos =
-      this.baixaEstoqueRequest.listaDeProdutos.filter((p) => {
-        i++;
-        return i != index;
-      });
-    this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
-  }
-
-  selecionarProduto(): void {
-    this.produtoSelecionado = this.produtos.filter(
-      (p) => p.descricao == this.baixaEstoqueProdutoRequest!.produto
-    )[0];
   }
 
   showToast(serverity: string, summary: string, detail?: string) {
@@ -266,12 +148,6 @@ export class ProdutosComponent implements OnInit {
     this.messageService.clear();
   }
 
-  showDialog() {
-    this.baixaEstoqueRequest = new BaixaEstoqueRequest();
-    this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
-    this.visibilidadeDialogForm = true;
-  }
-
   showDialogCadastro() {
     this.novoProduto = new CadastrarProdutoRequest();
     this.visibilidadeDialogFormCadastro = true;
@@ -283,11 +159,6 @@ export class ProdutosComponent implements OnInit {
     this.atualizarProduto.descricao = produtoSelecionado.descricao;
     this.atualizarProduto.estoqueMinimo = produtoSelecionado.estoqueMinimo;
     this.visibilidadeDialogFormAtualizar = true;
-  }
-
-  showDialogProdutos(baixaEstoqueResponse: BaixaEstoqueResponse) {
-    this.listaDeProdutos = baixaEstoqueResponse.listaDeProdutos;
-    this.visibilidadeDialogProdutos = true;
   }
 
   public acaoClique(any: any) {
