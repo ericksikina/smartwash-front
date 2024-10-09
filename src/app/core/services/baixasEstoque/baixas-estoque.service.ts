@@ -14,7 +14,6 @@ export class BaixaEstoqueService {
 
   constructor(private http: HttpClient) {}
 
-  // Cadastrar baixa de estoque
   cadastrarBaixa(baixaEstoqueRequest: BaixaEstoqueRequest): Observable<void> {
     return this.http.post<void>(
       `${this.APIBaixoEstoque}/cadastrar`,
@@ -22,14 +21,12 @@ export class BaixaEstoqueService {
     );
   }
 
-  // Buscar lista de produtos em baixo estoque
   buscarListaDeProdutosEstoqueBaixo(): Observable<Array<BaixaEstoqueResponse>> {
     return this.http.get<Array<BaixaEstoqueResponse>>(
       `${this.APIBaixoEstoque}/listar`
     );
   }
 
-  // Buscar lista de baixa de estoque filtrada por data
   buscarListaDeBaixaEstoqueFiltradoPorData(
     dataRequest: DataRequest
   ): Observable<Array<BaixaEstoqueResponse>> {
