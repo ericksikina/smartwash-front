@@ -1,14 +1,19 @@
 <nav>
   <div class="links">
-    @for (pagina of paginas; track $index) {
+    @for (pagina of paginas; track $index) { @if (pagina.id !== 7 && pagina.id
+    !== 8) {
     <button
       (click)="paginaSelecionada = pagina.id"
       (click)="trocarPagina(pagina)"
       class="{{ paginaSelecionada == pagina.id ? 'selecionado' : '' }}"
     >
-      {{ pagina.descricao }}</button
-    >}
+      {{ pagina.descricao }}
+    </button>
+    } }
+
+    <p-splitButton label="Compra" [model]="items"></p-splitButton>
   </div>
+
   <div
     style="height: auto; width: 100%; text-align: end; margin: 10px 30px 0 0"
   >

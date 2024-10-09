@@ -1,15 +1,19 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 @Component({
   selector: 'app-header',
   standalone: true,
+  imports: [SplitButtonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
   @Output() logoutEmitter = new EventEmitter<boolean>();
 
+  items: MenuItem[];
   email: String = localStorage.getItem('email')!;
 
   paginaSelecionada: number = 0;
@@ -24,7 +28,19 @@ export class HeaderComponent implements OnInit {
     { id: 8, descricao: 'Baixa no Estoque', link: '' },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.items = [
+      {
+        label: 'Baixa no Estoque',
+        command: () =>
+          this.trocarPagina({
+            id: 8,
+            descricao: 'Baixa no Estoque',
+            link: 'baixa-estoque',
+          }),
+      },
+    ];
+  }
 
   ngOnInit(): void {
     this.router.navigate(['']);
