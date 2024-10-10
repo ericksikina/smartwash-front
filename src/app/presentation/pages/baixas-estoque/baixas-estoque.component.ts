@@ -52,9 +52,6 @@ export class BaixasEstoqueComponent {
     new BaixaEstoqueProdutoRequest();
   baixaEstoqueSelecionado?: BaixaEstoqueProdutoRequest;
 
-  filtros: MenuItem[];
-  filtroAtivo: boolean = false;
-
   ativo: boolean = true;
 
   visibilidadeDialogForm: boolean = false;
@@ -64,16 +61,7 @@ export class BaixasEstoqueComponent {
     private messageService: MessageService,
     private baixaEstoqueService: BaixaEstoqueService,
     private produtosService: ProdutosService
-  ) {
-    this.filtroAtivo
-      ? (this.filtros = [
-          {
-            label: 'Filtrar Por Data',
-            command: () => {},
-          },
-        ])
-      : (this.filtros = []);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.buscarProdutosEstoqueBaixo();
@@ -81,24 +69,13 @@ export class BaixasEstoqueComponent {
 
   buscarProdutos(): void {
     this.produtosService
-      .buscarListaDeProdutos(this.ativo ? 'ATIVO' : 'INATIVO')
+      .buscarListaDeProdutos('ATIVO')
       .subscribe((resposta: Array<ProdutoResponse>) => {
         this.produtos = resposta;
       });
   }
 
   buscarProdutosEstoqueBaixo(): void {
-    this.filtroAtivo = true;
-    this.filtroAtivo
-      ? (this.filtros = [
-          {
-            label: 'Filtrar Por Data',
-            command: () => {
-              this.buscarListaDeBaixaEstoqueFiltradoPorData();
-            },
-          },
-        ])
-      : (this.filtros = []);
     this.baixaEstoqueService
       .buscarListaDeProdutosEstoqueBaixo()
       .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
@@ -107,17 +84,6 @@ export class BaixasEstoqueComponent {
   }
 
   buscarListaDeBaixaEstoqueFiltradoPorData(): void {
-    this.filtroAtivo = true;
-    this.filtroAtivo
-      ? (this.filtros = [
-          {
-            label: 'Remover Filtro de Data',
-            command: () => {
-              this.buscarProdutosEstoqueBaixo();
-            },
-          },
-        ])
-      : (this.filtros = []);
     this.baixaEstoqueService
       .buscarListaDeBaixaEstoqueFiltradoPorData(this.dataRequest)
       .subscribe((resposta: Array<BaixaEstoqueResponse>) => {
@@ -179,6 +145,7 @@ export class BaixasEstoqueComponent {
   showDialog() {
     this.baixaEstoqueRequest = new BaixaEstoqueRequest();
     this.baixaEstoqueProdutoRequest = new BaixaEstoqueProdutoRequest();
+    this.buscarProdutos();
     this.visibilidadeDialogForm = true;
   }
 

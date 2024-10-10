@@ -1,0 +1,25 @@
+.card {
+  width: 25rem;
+  height: 100%;
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 5px;
+  overflow-y: auto;
+  .title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .main {
+    margin: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .button {
+      width: 70%;
+      margin: 3%;
+    }
+  }
+}

@@ -15,6 +15,7 @@ import { EnderecoService } from '../../../core/services/utils/endereco.service';
 import { DatePipe } from '@angular/common';
 import { ClienteRequest } from '../../../core/models/clientes/requests/ClienteRequest';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cliente',
@@ -119,21 +120,31 @@ export class ClientesComponent implements OnInit {
     if (this.clienteSelecionado != undefined)
       await this.clienteService
         .atualizarCliente(this.clienteSelecionado.id, this.clienteRequest)
-        .subscribe((success) => {
-          this.showToast('success', 'Informações Atualizadas');
-          this.buscarListaDeClientes();
-          this.visibilidadeDialogForm = false;
-          return;
-        });
+        .subscribe(
+          (success) => {
+            this.showToast('success', 'Informações Atualizadas');
+            this.buscarListaDeClientes();
+            this.visibilidadeDialogForm = false;
+            return;
+          },
+          (error: HttpErrorResponse) => {
+            this.clearToast();
+            this.showToast('error', 'Erro ao Atualizar!', error.error.message);
+          }
+        );
     else
-      await this.clienteService
-        .cadastrarCliente(this.clienteRequest)
-        .subscribe((success) => {
+      await this.clienteService.cadastrarCliente(this.clienteRequest).subscribe(
+        (success) => {
           this.showToast('success', 'Cadastrado com Sucesso');
           this.buscarListaDeClientes();
           this.visibilidadeDialogForm = false;
           return;
-        });
+        },
+        (error: HttpErrorResponse) => {
+          this.clearToast();
+          this.showToast('error', 'Erro ao Cadastrar!', error.error.message);
+        }
+      );
     setTimeout(
       () =>
         this.showToast(

@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       );
     } else {
       this.clearToast();
-      this.showToast('error', 'A senha deve possuir 8 digitos para mais');
+      this.showToast('error', 'A senha deve possuir 4 digitos para mais');
     }
   }
 

@@ -1,0 +1,79 @@
+<div style="margin: 0 1% 0 1%; height: 84vh">
+  <div class="card">
+    <div class="title"><h2>Relatorio Gerais</h2></div>
+    <div class="main">
+      <div class="button">
+        <p-button
+          label="Funcionarios"
+          styleClass="styleButton"
+          (click)="baixarRelatorio(1)"
+        />
+      </div>
+      <div class="button">
+        <p-button
+          label="{{ !dataRequestAtiva ? 'Pedidos' : 'Cancelar' }}"
+          styleClass="styleButton"
+          (click)="abrirFormsDataRequest()"
+        />
+        @if(dataRequestAtiva) {
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            margin: 5%;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <label style="width: 70%">Data Inicial</label>
+          <p-calendar
+            [(ngModel)]="dataRequest.dataInicial"
+            inputId="dataInicio"
+            [readonlyInput]="true"
+            [touchUI]="true"
+            dateFormat="dd/mm/yy"
+          />
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            margin: 5%;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <label style="width: 70%">Data Final</label>
+          <p-calendar
+            [(ngModel)]="dataRequest.dataFinal"
+            inputId="dataInicio"
+            [readonlyInput]="true"
+            [touchUI]="true"
+            dateFormat="dd/mm/yy"
+          />
+        </div>
+        <p-button
+          label="BAIXAR"
+          styleClass="styleButton"
+          (click)="baixarRelatorio(2)"
+        />
+        }
+      </div>
+      <div class="button">
+        <p-splitButton
+          styleClass="styleButton"
+          label="Produtos"
+          (onClick)="baixarRelatorio(3)"
+          [model]="relatoriosProdutos"
+        />
+      </div>
+      <div class="button">
+        <p-button
+          label="Serviços"
+          styleClass="styleButton"
+          (onClick)="baixarRelatorio(5)"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</div>

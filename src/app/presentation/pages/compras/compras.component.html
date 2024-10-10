@@ -41,7 +41,7 @@
         <td colspan="2">{{ compra.funcionario }}</td>
         <td colspan="1">{{ compra.fornecedor }}</td>
         <td colspan="1">{{ compra.dataHora }}</td>
-        <td colspan="1">{{ compra.valorTotal }}</td>
+        <td colspan="1">R$ {{ compra.valorTotal }}</td>
         <td colspan="2" style="text-align: center">
           <button
             type="button"
@@ -59,7 +59,7 @@
     @if(compras.length < 1) {
     <tfoot style="background-color: #1e293b">
       <tr>
-        <td colspan="8" style="text-align: center; font-size: large">
+        <td colspan="9" style="text-align: center; font-size: large">
           Tabela Vazia
         </td>
       </tr>
@@ -71,7 +71,7 @@
   header="Visualizar Compras"
   [modal]="true"
   [(visible)]="visibilidadeDialogProdutos"
-  [style]="{ width: '50rem', height: '30rem', overflowY: 'auto' }"
+  [style]="{ width: '50rem', overflowY: 'auto' }"
 >
   <table>
     <thead>
@@ -96,7 +96,7 @@
         <td></td>
         <td colspan="2">{{ produto.produto }}</td>
         <td colspan="2">{{ produto.quantidade }}</td>
-        <td colspan="2">{{ produto.valorUnitario }}</td>
+        <td colspan="2">R$ {{ produto.valorUnitario }}</td>
         <td></td>
       </tr>
       }
@@ -118,6 +118,50 @@
   [(visible)]="visibilidadeDialogForm"
   [style]="{ width: '50rem', height: '30rem', overflowY: 'auto' }"
 >
+  <div style="display: flex; width: 100%; flex-wrap: wrap">
+    <div
+      style="
+        width: 66%;
+        margin-bottom: 1rem;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 100%">Fornecedor</label>
+      <input
+        pInputText
+        [(ngModel)]="compraRequest.fornecedor"
+        list="listaDeFornecedor"
+        id="desc"
+        style="width: 100%"
+        autocomplete="off"
+        (input)="selecionarFornecedor()"
+      />
+    </div>
+    <div
+      style="
+        width: 33%;
+        margin-bottom: 1rem;
+        margin-left: 1%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <label for="desc" style="width: 100%">Valor Total</label>
+      <input
+        pInputText
+        [(ngModel)]="compraRequest.valorTotal"
+        [disabled]="true"
+        id="desc"
+        style="width: 100%"
+        autocomplete="off"
+      />
+    </div>
+  </div>
   <div style="display: flex; height: 80%; gap: 5%">
     <div style="display: flex; flex-direction: column; width: 40%">
       <div style="display: flex; align-items: center; margin-bottom: 1rem">
@@ -225,5 +269,11 @@
 <datalist id="listaDeProdutos">
   @for(produto of produtos; track $index) {
   <option [value]="produto.descricao"></option>
+  }
+</datalist>
+
+<datalist id="listaDeFornecedor">
+  @for(fornecedor of fornecedores; track $index) {
+  <option [value]="fornecedor.descricao"></option>
   }
 </datalist>

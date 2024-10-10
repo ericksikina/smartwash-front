@@ -53,7 +53,7 @@
           text-align: left;
         "
       >
-        <th colspan="1" style="width: 6%; text-align: center">Status</th>
+        <th colspan="2" style="text-align: center">Status</th>
         <th colspan="1">Data - Hora</th>
         <th colspan="2">Cliente</th>
         <th colspan="1">Funcionario</th>
@@ -70,7 +70,7 @@
     <tbody>
       @for(pedido of pedidos; track $index) {
       <tr>
-        <td colspan="1" style="width: 6%; text-align: center">
+        <td colspan="2" style="text-align: center">
           {{ pedido.status }}
         </td>
         <td colspan="1">{{ pedido.dataHora }}</td>
@@ -105,7 +105,7 @@
     </tbody>
     <tfoot style="background-color: #1e293b">
       <tr>
-        <td colspan="10">
+        <td colspan="11">
           Total de Pedidos:
           {{ pedidos.length }}
         </td>
@@ -114,7 +114,7 @@
     @if(pedidos.length < 1) {
     <tfoot style="background-color: #1e293b">
       <tr>
-        <td colspan="10" style="text-align: center; font-size: large">
+        <td colspan="11" style="text-align: center; font-size: large">
           Tabela Vazia
         </td>
       </tr>

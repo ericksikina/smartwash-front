@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   items: MenuItem[];
   email: String = localStorage.getItem('email')!;
 
-  paginaSelecionada: number = 0;
+  paginaSelecionada: number = 9;
   paginas: Array<pagina> = [
     { id: 1, descricao: 'Serviços', link: 'servicos' },
     { id: 2, descricao: 'Produtos', link: 'produtos' },
@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
     { id: 6, descricao: 'Pedido', link: 'pedidos' },
     { id: 7, descricao: 'Compra', link: 'compras' },
     { id: 8, descricao: 'Baixa no Estoque', link: 'baixas-estoque' },
+    { id: 9, descricao: 'Relatorios', link: '' },
   ];
 
   constructor(private router: Router) {

@@ -17,6 +17,8 @@ import { CompraRequest } from '../../../core/models/compra/requests/CompraReques
 import { CompraProdutoRequest } from '../../../core/models/compra/requests/CompraProdutoRequest';
 import { ComprasService } from '../../../core/services/compras/compras.service';
 import { ProdutosService } from '../../../core/services/produtos/produtos.service';
+import { FornecedoresService } from '../../../core/services/fornecedores/fornecedores.service';
+import { FornecedorResponse } from '../../../core/models/fornecedores/responses/FornecedorResponse';
 
 @Component({
   selector: 'app-compras',
@@ -38,6 +40,9 @@ import { ProdutosService } from '../../../core/services/produtos/produtos.servic
   styleUrl: './compras.component.scss',
 })
 export class ComprasComponent {
+  fornecedores: Array<FornecedorResponse> = [];
+  fornecedorSelecionado?: FornecedorResponse;
+
   produtos: Array<ProdutoResponse> = [];
   produtoSelecionado?: ProdutoResponse;
 
@@ -56,6 +61,7 @@ export class ComprasComponent {
   constructor(
     private messageService: MessageService,
     private comprasService: ComprasService,
+    private fornecedoresService: FornecedoresService,
     private produtosService: ProdutosService
   ) {}
 
@@ -65,9 +71,17 @@ export class ComprasComponent {
 
   buscarProdutos(): void {
     this.produtosService
-      .buscarListaDeProdutos(this.ativo ? 'ATIVO' : 'INATIVO')
+      .buscarListaDeProdutos('ATIVO')
       .subscribe((resposta: Array<ProdutoResponse>) => {
         this.produtos = resposta;
+      });
+  }
+
+  buscarFornecedores(): void {
+    this.fornecedoresService
+      .buscarListaDeFornecedores('ATIVO')
+      .subscribe((resposta) => {
+        this.fornecedores = resposta;
       });
   }
 
@@ -79,18 +93,24 @@ export class ComprasComponent {
 
   cadastrarCompra(): void {
     this.showToast('info', 'Carregando...', 'Aguarde alguns segundos');
+    this.compraRequest.fornecedor = this.fornecedorSelecionado!.id;
     this.comprasService.cadastrarCompra(this.compraRequest).subscribe(() => {
       this.compraRequest = new CompraRequest();
       this.compraProdutoRequest = new CompraProdutoRequest();
       this.showToast('success', 'Cadastro feito com sucesso');
-      this.buscarProdutos();
+      this.buscarListaDeCompras();
       this.visibilidadeDialogForm = false;
     });
   }
 
   adicionarProduto(): void {
     this.compraProdutoRequest!.produto = this.produtoSelecionado!.id;
-    this.compraRequest.listaDeProdutos.push(this.compraProdutoRequest!);
+    this.compraRequest.listaDeProdutos.push(this.compraProdutoRequest);
+    this.comprasService
+      .calcularValorTotalCompra(this.compraRequest.listaDeProdutos)
+      .subscribe((success) => {
+        this.compraRequest.valorTotal = success;
+      });
     this.compraProdutoRequest = new CompraProdutoRequest();
   }
 
@@ -102,6 +122,17 @@ export class ComprasComponent {
         return i != index;
       });
     this.compraProdutoRequest = new CompraProdutoRequest();
+    this.comprasService
+      .calcularValorTotalCompra(this.compraRequest.listaDeProdutos)
+      .subscribe((success) => {
+        this.compraRequest.valorTotal = success;
+      });
+  }
+
+  selecionarFornecedor(): void {
+    this.fornecedorSelecionado = this.fornecedores.filter(
+      (p) => p.descricao == this.compraRequest!.fornecedor
+    )[0];
   }
 
   selecionarProduto(): void {
@@ -125,6 +156,8 @@ export class ComprasComponent {
   }
 
   showDialog() {
+    this.buscarProdutos();
+    this.buscarFornecedores();
     this.compraRequest = new CompraRequest();
     this.compraProdutoRequest = new CompraProdutoRequest();
     this.visibilidadeDialogForm = true;
